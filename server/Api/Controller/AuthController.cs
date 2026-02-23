@@ -1,0 +1,64 @@
+﻿using Api.Dtos.Response;
+using Api.Dtos.Response.Response;
+using Api.Security;
+using Api.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Api.Controller;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
+{
+    private readonly IAuthService _authService;
+    private readonly ITokenService _tokenService;
+    private readonly ILogger _logger;
+
+    public AuthController(IAuthService authService, ITokenService tokenService, ILogger<AuthController> logger)
+    {
+        _authService = authService;
+        _tokenService = tokenService;
+        _logger =  logger;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
+    {
+        try
+        {
+            var userInfo = await _authService.AuthenticateAsync(request);
+            var token = _tokenService.CreateToken(userInfo);
+            return Ok(new LoginResponse(token, userInfo));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString(), ex);
+            return BadRequest(new { message = "Login failed", detail = ex.Message });
+        }
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)
+    {
+        var userInfo = await _authService.RegisterAsync(request);
+        return Ok(new RegisterResponse(userInfo.UserId, userInfo.UserName));
+    }
+    
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        return NoContent();
+    }
+
+    [HttpGet("userinfo")]
+    public async Task<ActionResult<AuthUserInfoDto?>> UserInfo()
+    {
+        var user = await _authService.GetUserInfoAsync(User);
+        if (user == null) return NotFound();
+        return Ok(user);
+    }
+}
