@@ -22,5 +22,9 @@
     <PackageReference Include="NSwag.Core" Version="14.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+  </ItemGroup>
+
 
 </Project>

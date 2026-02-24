@@ -2,9 +2,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Api.Security;
 using Api.Service;
+using DataAccess.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DataAccess.MyDbContext;
+using DataAccess.Repositories;
+
 
 public class Program
 {
