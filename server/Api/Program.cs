@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using api;
 using Api.Security;
 using Api.Service;
 using DataAccess.Entity;
@@ -24,8 +25,8 @@ public class Program
         );
 
         // Repositories
-        builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
-        builder.Services.AddScoped<IRepository<Profil>, UserRepository>();
+        //builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
+        //builder.Services.AddScoped<IRepository<Profil>, UserRepository>();
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();

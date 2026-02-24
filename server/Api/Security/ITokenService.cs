@@ -1,4 +1,6 @@
-﻿namespace Api.Security;
+﻿using Api.Dtos.Response;
+
+namespace Api.Security;
 
 public class ITokenService
 {

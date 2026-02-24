@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using Api.Dtos.Response;
 using Api.Etc;
+using DataAccess.Entity;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 

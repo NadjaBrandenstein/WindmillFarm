@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using DataAccess.Entity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api.Security;
