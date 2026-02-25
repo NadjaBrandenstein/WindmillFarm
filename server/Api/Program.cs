@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.MyDbContext;
 using DataAccess.Repositories;
+using StackExchange.Redis;
 
 
 public class Program
@@ -32,6 +33,8 @@ public class Program
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
+        
+        
         
         
         // Authentication & Authorization
@@ -64,14 +67,23 @@ public class Program
 
         builder.Services.AddAuthorization();
         
+        builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect("localhost:6379"));
 
+        builder.Services.AddRedisSseBackplane();
+        
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         });
+        
+        
+        
+        
         // OpenAPI / Swagger
         builder.Services.AddOpenApiDocument(); // no DefaultPropertyNameHandling needed
 
