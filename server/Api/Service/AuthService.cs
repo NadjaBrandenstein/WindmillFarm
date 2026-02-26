@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Api.Dtos.Response;
+using Api.Dtos.Response.Response;
 using Api.Etc;
 using DataAccess.Entity;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
+using RegisterRequest = Api.Dtos.Request.RegisterRequest;
 
 
 namespace Api.Service;
@@ -15,13 +17,13 @@ public class AuthService : IAuthService
     private readonly ILogger<AuthService> _logger;
     private readonly IPasswordHasher<Login> _passwordHasher;
     private readonly IRepository<Login> _loginRepository;
-    private readonly IRepository<Profil> _profileRepository;
+    private readonly IRepository<User> _profileRepository;
 
     public AuthService(
         ILogger<AuthService> logger,
         IPasswordHasher<Login> passwordHasher,
         IRepository<Login> loginRepository,
-        IRepository<Profil> profileRepository)
+        IRepository<User> profileRepository)
     {
         _logger = logger;
         _passwordHasher = passwordHasher;
@@ -32,7 +34,7 @@ public class AuthService : IAuthService
     public async Task<AuthUserInfoDto> AuthenticateAsync(LoginRequest request)
     {
         var login = _loginRepository.Query()
-            .SingleOrDefault(l => l.Brugernavn == request.Username);
+            .SingleOrDefault(l => l.Username == request.Email);
 
         if (login == null)
             throw new AuthenticationError();
@@ -44,7 +46,7 @@ public class AuthService : IAuthService
             throw new AuthenticationError();
 
         var profile = _profileRepository.Query()
-            .SingleOrDefault(p => p.Brugerid == login.Brugerid);
+            .SingleOrDefault(p => p.UserId == login.UserId);
 
         if (profile == null)
             throw new AuthenticationError();
@@ -54,27 +56,24 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)
     {
-        if (_profileRepository.Query().Any(p => p.Email == request.Email))
-            throw new ValidationException("Email already exists.");
-
-        if (_loginRepository.Query().Any(l => l.Brugernavn == request.UserName))
+        
+        if (_loginRepository.Query().Any(l => l.Username == request.UserName))
             throw new ValidationException("Username already exists.");
         
         var login = new Login
         {
-            Brugernavn = request.UserName,
-            Rolleid = 1
+            Username = request.UserName,
+            UserId = 1
         };
         login.Password = _passwordHasher.HashPassword(login, request.Password);
         await _loginRepository.Add(login);
         
-        var profile = new Profil
+        var profile = new User()
         {
-            Brugerid = login.Brugerid,
-            Email = request.Email,
-            Fnavn = request.FirstName,
-            Lnavn = request.LastName,
-            Rolleid = 1,
+            UserId = login.UserId,
+            Fname = request.FirstName,
+            Lname = request.LastName,
+             = 1,
             Aktiv = true
         };
         await _profileRepository.Add(profile);
