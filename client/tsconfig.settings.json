@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "declaration": true,
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+
+
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": ["DOM", "ESNext"]
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "dist",
+    "**/*.js"
+  ]
+}

@@ -74,7 +74,7 @@ public class Program
 
         //builder.Services.AddRedisSseBackplane();
 
-        builder.Services.AddMqttControllers();
+        //builder.Services.AddMqttControllers();
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -136,8 +136,8 @@ public class Program
 
         app.MapControllers();
 
-        var mqttController = app.Services.GetRequiredService<IMqttClientService>();
-        await mqttController.ConnectAsync("broker.hivemq.com", 1883);
+        //var mqttController = app.Services.GetRequiredService<IMqttClientService>();
+        //await mqttController.ConnectAsync("broker.hivemq.com", 1883);
 
         await app.RunAsync();
     }

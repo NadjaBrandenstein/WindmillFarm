@@ -55,26 +55,30 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)
     {
-        
         if (_loginRepository.Query().Any(l => l.Username == request.UserName))
             throw new ValidationException("Username already exists.");
-        
+    
+        // Fetch default role
+        var roleId = 1; // or fetch dynamically from role repository if needed
+
+        // Create user first
+        var profile = new User()
+        {
+            Fname = request.FirstName,
+            Lname = request.LastName,
+            RoleId = roleId
+        };
+        await _profileRepository.Add(profile); // DB generates user_id
+
+        // Create login linked to this user
         var login = new Login
         {
             Username = request.UserName,
-            UserId = 1
+            Password = _passwordHasher.HashPassword(null, request.Password),
+            RoleId = roleId,
+            UserId = profile.UserId
         };
-        login.Password = _passwordHasher.HashPassword(login, request.Password);
         await _loginRepository.Add(login);
-        
-        var profile = new User()
-        {
-            UserId = login.UserId,
-            Fname = request.FirstName,
-            Lname = request.LastName,
-            RoleId = 1,
-        };
-        await _profileRepository.Add(profile);
 
         return login.ToDto(profile);
     }

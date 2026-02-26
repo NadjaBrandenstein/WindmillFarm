@@ -1,7 +1,11 @@
 {
   "files": [],
+  "compilerOptions": {
+    "disableSourceOfProjectReferenceRedirect": true
+  },
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.node.json" },
+    { "path": "./src/Utils/tsconfig.json" },
+    { "path": "./src/Pages/tsconfig.json" }
   ]
 }
