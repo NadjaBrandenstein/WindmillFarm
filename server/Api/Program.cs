@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.MyDbContext;
 using DataAccess.Repositories;
+using Mqtt.Controllers;
 using StackExchange.Redis;
 using StateleSSE.AspNetCore.Extensions;
 
@@ -72,7 +73,8 @@ public class Program
             ConnectionMultiplexer.Connect("localhost:6379"));
 
         //builder.Services.AddRedisSseBackplane();
-        
+
+        builder.Services.AddMqttControllers();
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -133,6 +135,9 @@ public class Program
         }
 
         app.MapControllers();
+
+        var mqttController = app.Services.GetRequiredService<IMqttClientService>();
+        await mqttController.ConnectAsync("broker.hivemq.com", 1883);
 
         await app.RunAsync();
     }
