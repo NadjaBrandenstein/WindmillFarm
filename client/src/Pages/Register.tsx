@@ -2,7 +2,12 @@
 function Register(){
 
     return(
-        <div>
+        <div className="register-box">
+
+            <form className="">
+
+            </form>
+
             <input className="input-register" type="text" placeholder="First Name"/>
             <input className="input-register" type="text" placeholder="Last Name"/>
             <input className="input-register" type="text" placeholder="Username"/>
