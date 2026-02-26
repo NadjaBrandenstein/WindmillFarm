@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.MyDbContext;
 using DataAccess.Repositories;
 using StackExchange.Redis;
+using StateleSSE.AspNetCore.Extensions;
 
 
 public class Program
