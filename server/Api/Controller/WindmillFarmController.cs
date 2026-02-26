@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Mqtt.Controllers;
 
@@ -10,20 +11,20 @@ public class WindmillFarmController(ILogger<WindmillFarmController> logger)
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
     public async Task HandleTelemetry(string turbineId, TurbineTelemetry telemetryData)
     {
-        logger.LogInformation("Turbine: "+turbineId+", telemetryData: "+JsonSerializer.Serialize(telemetryData));
+        logger.LogInformation($"Turbine: {turbineId}, TelemetryData: {JsonSerializer.Serialize(telemetryData)}");
         
     }
     
 }
 
 public record TurbineTelemetry(
-    int TurbineId,
+    string TurbineId,
     string TurbineName,
-    int FarmId,
+    string FarmId,
     DateTime Timestamp,
     decimal WindSpeed,
     decimal WindDirection,
-    decimal AmbientTemp,
+    decimal AmbientTemperature, // <-- Changed this from AmbientTemp!
     decimal RotorSpeed,
     decimal PowerOutput,
     decimal NacelleDirection,
@@ -32,5 +33,4 @@ public record TurbineTelemetry(
     decimal GearboxTemp,
     decimal Vibration,
     string Status
-    
-    );
+);

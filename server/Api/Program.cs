@@ -91,7 +91,7 @@ public class Program
         builder.Services.AddOpenApiDocument(); // no DefaultPropertyNameHandling needed
 
         builder.Services.AddProblemDetails();
-
+        builder.Services.AddMqttControllers();
         // CORS
         builder.Services.AddCors(options =>
         {
@@ -136,8 +136,8 @@ public class Program
 
         app.MapControllers();
 
-        //var mqttController = app.Services.GetRequiredService<IMqttClientService>();
-        //await mqttController.ConnectAsync("broker.hivemq.com", 1883);
+        var mqttController = app.Services.GetRequiredService<IMqttClientService>();
+        await mqttController.ConnectAsync("broker.hivemq.com", 1883);
 
         await app.RunAsync();
     }
