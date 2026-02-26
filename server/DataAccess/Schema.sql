@@ -29,7 +29,12 @@ CREATE TABLE role (
 CREATE TABLE "user" (
                         user_id SERIAL PRIMARY KEY,
                         fname TEXT NOT NULL,
-                        lname TEXT NOT NULL
+                        lname TEXT NOT NULL,
+                        role_id INT NOT NULL,
+
+                        CONSTRAINT fk_user_role
+                        FOREIGN KEY (role_id) REFERENCES role(role_id)
+                           ON DELETE RESTRICT,
 );
 
 -- ============================
