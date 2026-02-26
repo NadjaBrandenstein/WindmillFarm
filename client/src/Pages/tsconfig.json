@@ -19,8 +19,6 @@
     "../generated-ts-client.ts",
     "../vite-env.d.ts"],
   "references": [{
-    "path": "../Core"
-  }, {
     "path": "../Utils"
   }]
 }

@@ -5,7 +5,7 @@ function Register(){
         <div className="register-box">
 
             <form className="">
-
+                <h1>Register</h1>
             </form>
 
             <input className="input-register" type="text" placeholder="First Name"/>

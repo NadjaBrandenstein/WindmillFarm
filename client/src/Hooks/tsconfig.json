@@ -14,8 +14,6 @@
     "../api-clients.ts",
     "../vite-env.d.ts"],
   "references": [{
-    "path": "../Core"
-  }, {
     "path": "../Utils"
   }]
 }

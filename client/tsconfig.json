@@ -5,8 +5,7 @@
   },
   "references": [
     { "path": "./tsconfig.node.json" },
-    { "path": "./src/Core/tsconfig.json" },
     { "path": "./src/Utils/tsconfig.json" },
-    { "path": "./src/UI/tsconfig.json" }
+    { "path": "./src/Pages/tsconfig.json" }
   ]
 }
