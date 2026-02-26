@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.settings.json",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../generated-ts-client.ts",
+    "../Component/**/*.ts",
+    "../Component/**/*.tsx",
+    "../Pages/**/*.ts",
+    "../models/**/*.ts",
+    "../Atoms/**/*.ts",
+    "../Hooks/**/*.ts",
+    "../Hooks/**/*.tsx",
+    "../api-clients.ts",
+    "../vite-env.d.ts"],
+  "references": [{
+    "path": "../Core"
+  }, {
+    "path": "../Utils"
+  }]
+}

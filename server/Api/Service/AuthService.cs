@@ -55,7 +55,6 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)
     {
-        
         if (_loginRepository.Query().Any(l => l.Username == request.UserName))
             throw new ValidationException("Username already exists.");
         
