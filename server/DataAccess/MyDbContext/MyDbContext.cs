@@ -30,7 +30,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("alert_command", "windmill");
 
-            entity.Property(e => e.AlertId).HasColumnName("alert_id");
+            entity.Property(e => e.AlertId)
+                .HasDefaultValueSql("nextval('alert_command_alert_id_seq'::regclass)")
+                .HasColumnName("alert_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Timestamp)
@@ -47,7 +49,9 @@ public partial class MyDbContext : DbContext
 
             entity.HasIndex(e => e.Username, "login_username_key").IsUnique();
 
-            entity.Property(e => e.LoginId).HasColumnName("login_id");
+            entity.Property(e => e.LoginId)
+                .HasDefaultValueSql("nextval('login_login_id_seq'::regclass)")
+                .HasColumnName("login_id");
             entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
@@ -69,7 +73,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("role", "windmill");
 
-            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.RoleId)
+                .HasDefaultValueSql("nextval('role_role_id_seq'::regclass)")
+                .HasColumnName("role_id");
             entity.Property(e => e.RoleName).HasColumnName("role_name");
         });
 
@@ -79,7 +85,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("turbine", "windmill");
 
-            entity.Property(e => e.TurbineId).HasColumnName("turbine_id");
+            entity.Property(e => e.TurbineId)
+                .HasDefaultValueSql("nextval('turbine_turbine_id_seq'::regclass)")
+                .HasColumnName("turbine_id");
             entity.Property(e => e.AmbientTemp).HasColumnName("ambient_temp");
             entity.Property(e => e.BladePitch).HasColumnName("blade_pitch");
             entity.Property(e => e.FarmId).HasColumnName("farm_id");
@@ -105,9 +113,17 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("user", "windmill");
 
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserId)
+                .HasDefaultValueSql("nextval('user_user_id_seq'::regclass)")
+                .HasColumnName("user_id");
             entity.Property(e => e.Fname).HasColumnName("fname");
             entity.Property(e => e.Lname).HasColumnName("lname");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_user_role");
         });
 
         OnModelCreatingPartial(modelBuilder);
