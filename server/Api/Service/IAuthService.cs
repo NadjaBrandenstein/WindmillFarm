@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using Api.Dtos.Response;
-using Microsoft.AspNetCore.Identity.Data;
+using Api.Dtos.Request;
+
 
 namespace Api.Service;
 

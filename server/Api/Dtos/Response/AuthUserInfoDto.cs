@@ -1,7 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Api.Dtos.Response;
-
 public class AuthUserInfoDto
 {
     [JsonPropertyName("userId")]

@@ -1,8 +1,7 @@
-﻿using Api.Dtos.Response;
+﻿
 
 
-
-public class ITokenService
+public interface ITokenService
 {
     string CreateToken(AuthUserInfoDto user);
 }

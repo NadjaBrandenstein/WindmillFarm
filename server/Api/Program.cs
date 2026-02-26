@@ -26,8 +26,8 @@ public class Program
         );
 
         // Repositories
-        //builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
-        //builder.Services.AddScoped<IRepository<Profil>, UserRepository>();
+        builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
+        builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
@@ -70,7 +70,7 @@ public class Program
         builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
             ConnectionMultiplexer.Connect("localhost:6379"));
 
-        builder.Services.AddRedisSseBackplane();
+        //builder.Services.AddRedisSseBackplane();
         
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>

@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using Api.Dtos.Response;
-using Api.Dtos.Response.Response;
+using Api.Dtos.Request;
 using Api.Etc;
+using api.Mapper;
 using DataAccess.Entity;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
-using RegisterRequest = Api.Dtos.Request.RegisterRequest;
 
 
 namespace Api.Service;
@@ -34,13 +32,14 @@ public class AuthService : IAuthService
     public async Task<AuthUserInfoDto> AuthenticateAsync(LoginRequest request)
     {
         var login = _loginRepository.Query()
-            .SingleOrDefault(l => l.Username == request.Email);
+            .SingleOrDefault(l => l.Username == request.Username);
 
         if (login == null)
             throw new AuthenticationError();
 
         var result =
             _passwordHasher.VerifyHashedPassword(login, login.Password, request.Password);
+        
 
         if (result != PasswordVerificationResult.Success)
             throw new AuthenticationError();
@@ -73,8 +72,7 @@ public class AuthService : IAuthService
             UserId = login.UserId,
             Fname = request.FirstName,
             Lname = request.LastName,
-             = 1,
-            Aktiv = true
+            RoleId = 1,
         };
         await _profileRepository.Add(profile);
 
@@ -97,8 +95,8 @@ public class AuthService : IAuthService
             return null;
         }
 
-        var login = _loginRepository.Query().FirstOrDefault(l => l.Brugerid == userId);
-        var profile = _profileRepository.Query().FirstOrDefault(p => p.Brugerid == userId);
+        var login = _loginRepository.Query().FirstOrDefault(l => l.UserId == userId);
+        var profile = _profileRepository.Query().FirstOrDefault(p => p.UserId == userId);
 
         if (login == null || profile == null)
         {
