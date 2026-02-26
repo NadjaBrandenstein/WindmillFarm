@@ -111,6 +111,27 @@
         }
       }
     },
+    "/api/Telemetry/GetRecent": {
+      "get": {
+        "tags": [
+          "Telemetry"
+        ],
+        "operationId": "Telemetry_GetRecent",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/WebClient/{turbineId}/command": {
       "post": {
         "tags": [

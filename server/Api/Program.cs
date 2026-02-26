@@ -36,6 +36,8 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
         
+        builder.Services.AddSingleton<TelemetryService>();
+        
         
         
         

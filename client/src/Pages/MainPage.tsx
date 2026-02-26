@@ -1,21 +1,29 @@
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
+import {useTelemetry} from "../Hooks/useTelemetry.ts";
 
 function MainPage(){
+
+    const telemetryData = useTelemetry();
+
+    const formattedData = telemetryData.map(d => ({
+        ...d,
+        time: new Date(d.timestamp).toLocaleTimeString()
+    }));
 
     return(
         <div>
             <h3 className="header">Turbine Alpha</h3>
             <div className="container">
-                <div className="grid">
-                    <ResponsiveContainer>
-                        <LineChart>
-                            <CartesianGrid />
-                            <XAxis />
-                            <YAxis />
+                <div className="grid" >
+
+                        <LineChart width={600} height={400} data={formattedData}>
+                            <CartesianGrid strokeDasharray="3 3"/>
+                            <XAxis dataKey="time" />
+                            <YAxis dataKey="windSpeed" domain={['auto', 'auto']}/>
                             <Tooltip />
-                            <Line />
+                            <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" strokeWidth={2} />
                         </LineChart>
-                    </ResponsiveContainer>
+
                 </div>
 
                 <div className="table">
