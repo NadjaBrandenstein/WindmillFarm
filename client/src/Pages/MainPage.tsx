@@ -5,36 +5,36 @@ function MainPage(){
     return(
         <div>
             <h3 className="header">Turbine Alpha</h3>
+            <div className="container">
+                <div className="grid">
+                    <ResponsiveContainer>
+                        <LineChart>
+                            <CartesianGrid />
+                            <XAxis />
+                            <YAxis />
+                            <Tooltip />
+                            <Line />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
 
-            <div className="grid">
-                <ResponsiveContainer>
-                    <LineChart>
-                        <CartesianGrid />
-                        <XAxis />
-                        <YAxis />
-                        <Tooltip />
-                        <Line />
-                    </LineChart>
-                </ResponsiveContainer>
+                <div className="table">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Alert/Command</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Alert/Command</th>
-                            <th>Message</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
             <button className="button-main">Start</button>
             <button className="button-main">Stop</button>
 
