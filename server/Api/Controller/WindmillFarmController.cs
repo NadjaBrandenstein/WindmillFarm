@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Mqtt.Controllers;
 
 namespace Api.Controller;
@@ -6,7 +7,7 @@ namespace Api.Controller;
 public class WindmillFarmController(ILogger<WindmillFarmController> logger) 
     : MqttController
 {
-    [MqttRoute("farm/+/windmill/{turbineId}/telemetry")]
+    [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
     public async Task HandleTelemetry(string turbineId, TurbineTelemetry telemetryData)
     {
         logger.LogInformation("Turbine: "+turbineId+", telemetryData: "+JsonSerializer.Serialize(telemetryData));
@@ -15,7 +16,7 @@ public class WindmillFarmController(ILogger<WindmillFarmController> logger)
     
 }
 
-public abstract record TurbineTelemetry(
+public record TurbineTelemetry(
     int TurbineId,
     string TurbineName,
     int FarmId,

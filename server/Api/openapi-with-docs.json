@@ -110,6 +110,40 @@
           }
         }
       }
+    },
+    "/api/WebClient/{turbineId}/command": {
+      "post": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_SendCommand",
+        "parameters": [
+          {
+            "name": "turbineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {
