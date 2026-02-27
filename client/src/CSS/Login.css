@@ -1,32 +1,60 @@
 
 .login-box{
-
+    margin-top: 200px;
+    width: 540px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .input{
     color: black;
+    border-radius: 10px;
 }
 
 .user-input{
     background-image: url('../assets/User.png');
 }
 
+.input-wrapper{
+    width: 300px;
+    margin-left: 50px;
+}
+
 .input-login{
-    //background: #F44336;
-    color: #FFFFFF;
-    //border: #F44336;
+    background-color: #F4F7FB;
+    color: #003A6B;
+    border: 1px solid #D6E2F0;
     height: 40px;
     width: 300px;
     font-size: 16px;
     padding-left: 50px;
     margin-bottom: 15px;
-    margin-left: 60px;
+    margin-left: 30px;
     display: flex;
     align-items: center;
 
     background-repeat: no-repeat;
     background-position: 10px center;
     background-size: 25px 25px;
+    transition: all 0.2s ease;
+}
+
+.input-login:focus{
+    outline: none;
+    border-color: #0A66B2;
+    box-shadow: 0 0 0 3px rgba(10, 102, 178, 0.15);
+}
+
+.content-login{
+    margin-top: 0;
 }
 
 .password-wrapper{
@@ -45,12 +73,12 @@
 
 .show-password-btn{
     position: absolute;
-    right: -100px;
+    right: -80px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: white;
+    color: #003A6B;
     font-size: 12px;
     cursor: pointer;
 }
@@ -58,10 +86,11 @@
 .eye-icon{
     width: 20px;
     height: 20px;
+
 }
 
 ::placeholder{
-    color: #FFFFFF;
+    color: #7A8CA5;
     font-size: 16px;
 }
 
@@ -69,7 +98,7 @@
     display: flex;
     align-items: center;
     margin-top: 20px;
-    margin-left: 38px;
+    margin-left: 5px;
     justify-content: center;
     background: none;
     width: 500px;
@@ -89,6 +118,7 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
+    border-radius: 10px;
 
     background-image: url('../assets/ArrowRight.png');
     background-repeat: no-repeat;
@@ -96,4 +126,29 @@
     background-size: 16px 16px;
     padding-right: 30px;
     cursor: pointer;
+}
+
+
+.button-login[type="submit"]{
+    background: linear-gradient(135deg, #004B88, #0A66B2);
+    color: white;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.button-login[type="submit"]:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 75, 136, 0.3);
+}
+
+.button-login[type="button"]{
+    background: transparent;
+    border: 2px solid #004B88;
+    color: #004B88;
+    transition: all 0.2s ease;
+}
+
+.button-login[type="button"]:hover{
+    background: #004B88;
+    color: white;
 }

@@ -34,7 +34,7 @@ CREATE TABLE "user" (
 
                         CONSTRAINT fk_user_role
                         FOREIGN KEY (role_id) REFERENCES role(role_id)
-                           ON DELETE RESTRICT,
+                           ON DELETE RESTRICT
 );
 
 -- ============================

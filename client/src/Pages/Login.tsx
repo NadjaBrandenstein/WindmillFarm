@@ -1,6 +1,8 @@
 import '../CSS/Login.css'
 import {useNavigate} from "react-router-dom";
 import {useLogin} from "../Hooks/useLogin.ts";
+import OpenEye from '../assets/OpenEye.png';
+import ClosedEye from '../assets/ClosedEye.png';
 
 function Login() {
 
@@ -41,9 +43,11 @@ function Login() {
 
                     <button type="button"
                             className="show-password-btn"
-                            onClick={() => setShowPassword}
+                            onClick={() => setShowPassword(!showPassword)}
                     >
-                        <img className="eye-icon"/>
+                        <img className="eye-icon"
+                             src={showPassword ? ClosedEye : OpenEye}
+                             alt={showPassword ? "Hide password" : "Show password"}/>
                     </button>
                 </div>
 

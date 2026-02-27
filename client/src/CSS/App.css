@@ -5,7 +5,6 @@
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -13,17 +12,23 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    /*background-color: #004B88;*/
+    /*background: linear-gradient(135deg, #004B88, #0A66B2);*/
+    /*background: linear-gradient(135deg, #003A6B, #004B88);*/
+    background: linear-gradient(135deg, #003A6B, #004B88, #0A66B2);
+    /*background: linear-gradient(135deg, #005FA3, #4DA3D9);*/
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
+    background: transparent;
 }
