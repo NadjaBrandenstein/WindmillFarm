@@ -2,7 +2,7 @@
 .register-box{
     margin-top: 75px;
     width: 540px;
-    height: 420px;
+    height: 450px;
     margin-left: auto;
     margin-right: auto;
     flex: 1;
@@ -113,4 +113,9 @@ label{
 .button-register[type="button"]:hover{
     background: #004B88;
     color: white;
+}
+
+.error-message{
+    color: black;
+    margin-bottom: -5px;
 }

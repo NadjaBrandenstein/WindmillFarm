@@ -29,7 +29,7 @@ export const useRegisterUser = () => {
             await login({username: username, password });
         }catch(err){
             console.error("Registration error:", err);
-            setError("Registration failed. Please check your input or try another email.");
+            setError("Registration failed. Please check your input.");
         }
     };
     return {

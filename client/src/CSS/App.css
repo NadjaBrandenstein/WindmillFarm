@@ -23,6 +23,8 @@ body {
     /*background: linear-gradient(135deg, #003A6B, #004B88);*/
     background: linear-gradient(135deg, #003A6B, #004B88, #0A66B2);
     /*background: linear-gradient(135deg, #005FA3, #4DA3D9);*/
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 #root {

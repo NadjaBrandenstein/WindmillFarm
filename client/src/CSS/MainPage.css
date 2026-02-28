@@ -5,20 +5,44 @@
 
 .container{
     display: flex;
-    flex-direction: row;
+    gap: 30px;
+    padding: 20px;
+    align-items: flex-start;
 }
 
-.grid{
+.graph-wrapper{
+    flex: 0 0 65%;
     display: grid;
-    grid-template-columns:1fr 1fr;
-    gap: 16px;
-    padding: 16px;
-    width: 100%;
-    height: 400px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.graph-card{
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.table-wrapper{
+    flex: 0 0 35%;
 }
 
 .table{
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
 
+.table td, .table th{
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+}
+
+.table thead{
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .button-main{
