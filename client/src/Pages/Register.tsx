@@ -1,3 +1,4 @@
+import '../CSS/Register.css'
 import {useRegisterUser} from "../Hooks/useRegisterUser.ts";
 
 function Register(){
@@ -14,7 +15,6 @@ function Register(){
         error,
         handleRegister,
     } = useRegisterUser();
-
 
     return(
         <div className="register-box">
@@ -65,8 +65,10 @@ function Register(){
 
                 {error && <p className="error-message">{error}</p>}
 
-                <button className="button-register" type="submit">Register</button>
-                <button className="button-register" onClick={() => {window.history.back()}}>Cancel</button>
+                <div className="register-button-row">
+                    <button className="button-register" type="submit">Register</button>
+                    <button className="button-register" onClick={() => {window.history.back()}}>Cancel</button>
+                </div>
             </form>
 
         </div>
