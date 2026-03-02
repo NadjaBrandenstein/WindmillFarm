@@ -2,7 +2,7 @@ using api.Dtos;
 
 namespace Api.Controller;
 
-public record TurbineTelemetry(
+public record TurbineDto(
     string TurbineId,
     string TurbineName,
     string FarmId,

@@ -10,9 +10,9 @@ public class TelemetryService
     
     private const int MaxReadings = 50;
 
-    public void AddReadingTelemetry(TurbineTelemetry telemetry)
+    public void AddReadingTelemetry(TurbineDto dto)
     {
-        _readings.Enqueue(telemetry);
+        _readings.Enqueue(dto);
 
         if (_readings.Count > MaxReadings)
         {
