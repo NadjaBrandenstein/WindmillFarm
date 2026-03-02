@@ -10,14 +10,14 @@ namespace Api.Controller;
 
 public class WindmillFarmController(
     ILogger<WindmillFarmController> logger,
-    TelemetryService telemetryService, MyDbContext ctx
+    WindSpeedService windSpeedService, MyDbContext ctx
     ) 
     : MqttController
 {
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
     public async Task HandleTelemetry(string turbineId, TurbineDto dtoData)
     {
-        telemetryService.AddReadingTelemetry(dtoData);
+        windSpeedService.AddReadingTelemetry(dtoData);
         
         logger.LogInformation($"Turbine: {turbineId}, Telemetry received");
 
@@ -62,7 +62,7 @@ public class WindmillFarmController(
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/alert")]
     public async Task HandleAlerts(string turbineId, AlertsDto alerts)
     {
-        telemetryService.AddReadingAlert(alerts);
+        windSpeedService.AddReadingAlert(alerts);
         logger.LogInformation($"Turbine: {turbineId}, " +
                               $"Alerts: {JsonSerializer.Serialize(
                                   new

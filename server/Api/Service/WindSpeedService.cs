@@ -4,7 +4,7 @@ using api.Dtos;
 
 namespace Api.Service;
 
-public class TelemetryService
+public class WindSpeedService
 {
     private readonly ConcurrentQueue<ITurbineEvent> _readings = new();
     
