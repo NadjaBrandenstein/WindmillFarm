@@ -111,33 +111,12 @@
         }
       }
     },
-    "/api/Telemetry/GetRecent": {
-      "get": {
-        "tags": [
-          "Telemetry"
-        ],
-        "operationId": "Telemetry_GetRecent",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/WebClient/{turbineId}/command": {
+    "/api/Command/{turbineId}/command": {
       "post": {
         "tags": [
-          "WebClient"
+          "Command"
         ],
-        "operationId": "WebClient_SendCommand",
+        "operationId": "Command_SendCommand",
         "parameters": [
           {
             "name": "turbineId",
@@ -162,6 +141,27 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Telemetry/GetRecent": {
+      "get": {
+        "tags": [
+          "Telemetry"
+        ],
+        "operationId": "Telemetry_GetRecent",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
           }
         }
       }

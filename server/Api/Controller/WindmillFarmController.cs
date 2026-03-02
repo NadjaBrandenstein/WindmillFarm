@@ -1,8 +1,6 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using api.Dtos;
 using Api.Service;
-using Microsoft.AspNetCore.Mvc;
 using Mqtt.Controllers;
 
 namespace Api.Controller;
