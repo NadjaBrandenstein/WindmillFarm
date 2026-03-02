@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using api.Dtos;
 using Api.Service;
 using Microsoft.AspNetCore.Mvc;
 using Mqtt.Controllers;
@@ -15,7 +16,7 @@ public class WindmillFarmController(
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
     public async Task HandleTelemetry(string turbineId, TurbineTelemetry telemetryData)
     {
-        telemetryService.AddReading(telemetryData);
+        telemetryService.AddReadingTelemetry(telemetryData);
         logger.LogInformation($"Turbine: {turbineId}, " +
                               $"TelemetryData: {JsonSerializer.Serialize(new
                               {
@@ -36,5 +37,21 @@ public class WindmillFarmController(
                                   telemetryData.Status,
                                    })}");
         
+    }
+    
+    [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/alert")]
+    public async Task HandleAlerts(string turbineId, AlertsDto alerts)
+    {
+        telemetryService.AddReadingAlert(alerts);
+        logger.LogInformation($"Turbine: {turbineId}, " +
+                              $"Alerts: {JsonSerializer.Serialize(
+                                  new
+                                  {
+                                      alerts.TurbineId,
+                                      alerts.FarmId,
+                                      alerts.Timestamp,
+                                      alerts.severity,
+                                      alerts.message
+                                  })}");
     }
 }

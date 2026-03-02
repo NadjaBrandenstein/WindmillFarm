@@ -1,3 +1,5 @@
+using api.Dtos;
+
 namespace Api.Controller;
 
 public record TurbineTelemetry(
@@ -16,4 +18,4 @@ public record TurbineTelemetry(
     decimal GearboxTemp,
     decimal Vibration,
     string Status
-);
+): ITurbineEvent;
