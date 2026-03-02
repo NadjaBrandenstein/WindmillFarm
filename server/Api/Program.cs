@@ -102,7 +102,7 @@ public class Program
                 policy
                     .WithOrigins(
                         // change to right address "https://jerne-if-doede-duer.fly.dev", 
-                        "http://localhost:5173"
+                        "http://localhost:5174"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
@@ -121,22 +121,25 @@ public class Program
         var app = builder.Build();
 
         // Middleware pipeline
-        app.UseExceptionHandler();
         app.UseRouting();
 
         app.UseCors("FrontendPolicy");
 
         app.UseAuthentication();
         app.UseAuthorization();
-
+        
         app.UseOpenApi();
         app.UseSwaggerUi();
         if (app.Environment.IsDevelopment())
         {
             await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
         }
+        
+        app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
 
         app.MapControllers();
+        
+        app.UseExceptionHandler();
 
         var mqttController = app.Services.GetRequiredService<IMqttClientService>();
         await mqttController.ConnectAsync("broker.hivemq.com", 1883);

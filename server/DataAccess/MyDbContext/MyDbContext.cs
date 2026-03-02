@@ -18,7 +18,9 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<Turbine> Turbines { get; set; }
+    public virtual DbSet<Turbineregistry> Turbineregistries { get; set; }
+
+    public virtual DbSet<Turbinetelemetry> Turbinetelemetries { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -79,15 +81,29 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.RoleName).HasColumnName("role_name");
         });
 
-        modelBuilder.Entity<Turbine>(entity =>
+        modelBuilder.Entity<Turbineregistry>(entity =>
         {
-            entity.HasKey(e => e.TurbineId).HasName("turbine_pkey");
+            entity.HasKey(e => e.Id).HasName("turbineregistry_pkey");
 
-            entity.ToTable("turbine", "windmill");
+            entity.ToTable("turbineregistry", "windmill");
 
-            entity.Property(e => e.TurbineId)
-                .HasDefaultValueSql("nextval('turbine_turbine_id_seq'::regclass)")
-                .HasColumnName("turbine_id");
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('turbineregistry_id_seq'::regclass)")
+                .HasColumnName("id");
+            entity.Property(e => e.FarmId).HasColumnName("farm_id");
+            entity.Property(e => e.TurbineId).HasColumnName("turbine_id");
+            entity.Property(e => e.TurbineName).HasColumnName("turbine_name");
+        });
+
+        modelBuilder.Entity<Turbinetelemetry>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("turbinetelemetry_pkey");
+
+            entity.ToTable("turbinetelemetry", "windmill");
+
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('turbinetelemetry_id_seq'::regclass)")
+                .HasColumnName("id");
             entity.Property(e => e.AmbientTemp).HasColumnName("ambient_temp");
             entity.Property(e => e.BladePitch).HasColumnName("blade_pitch");
             entity.Property(e => e.FarmId).HasColumnName("farm_id");
@@ -98,9 +114,9 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.RotorSpeed).HasColumnName("rotor_speed");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Timestamp)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnName("timestamp");
+            entity.Property(e => e.TurbineId).HasColumnName("turbine_id");
             entity.Property(e => e.TurbineName).HasColumnName("turbine_name");
             entity.Property(e => e.Vibration).HasColumnName("vibration");
             entity.Property(e => e.WindDirection).HasColumnName("wind_direction");

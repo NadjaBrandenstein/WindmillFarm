@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace DataAccess.Entity;
 
-public partial class Turbine
+public partial class Turbinetelemetry
 {
-    public int TurbineId { get; set; }
+    public int Id { get; set; }
+
+    public string? TurbineId { get; set; }
 
     public string TurbineName { get; set; } = null!;
 
-    public int? FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     public DateTime Timestamp { get; set; }
 
