@@ -16,11 +16,25 @@ public class WindmillFarmController(
     public async Task HandleTelemetry(string turbineId, TurbineTelemetry telemetryData)
     {
         telemetryService.AddReading(telemetryData);
-        logger.LogInformation($"Turbine: {turbineId}, TelemetryData: {JsonSerializer.Serialize(telemetryData.WindSpeed)}");
+        logger.LogInformation($"Turbine: {turbineId}, " +
+                              $"TelemetryData: {JsonSerializer.Serialize(new
+                              {
+                                  telemetryData.TurbineId,
+                                  telemetryData.TurbineName,
+                                  telemetryData.FarmId,
+                                  telemetryData.Timestamp,
+                                  telemetryData.WindSpeed,
+                                  telemetryData.WindDirection,
+                                  telemetryData.AmbientTemperature,
+                                  telemetryData.RotorSpeed,
+                                  telemetryData.PowerOutput,
+                                  telemetryData.NacelleDirection,
+                                  telemetryData.BladePitch,
+                                  telemetryData.GeneratorTemp,
+                                  telemetryData.GearboxTemp,
+                                  telemetryData.Vibration,
+                                  telemetryData.Status,
+                                   })}");
         
     }
-    
-    
-    
-    
 }
