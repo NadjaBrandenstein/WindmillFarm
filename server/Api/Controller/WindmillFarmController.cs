@@ -3,6 +3,7 @@ using api.Dtos;
 using Api.Service;
 using DataAccess.Entity;
 using DataAccess.MyDbContext;
+using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
 
 namespace Api.Controller;
@@ -20,6 +21,20 @@ public class WindmillFarmController(
         
         logger.LogInformation($"Turbine: {turbineId}, Telemetry received");
 
+        var exists = await ctx.Turbineregistries
+            .AnyAsync(t => t.TurbineId == turbineId);
+
+        if (!exists)
+        {
+            var registry = new Turbineregistry()
+            {
+                TurbineId = turbineId,
+                TurbineName = turbineId,
+                FarmId = dtoData.FarmId,
+            };
+            ctx.Turbineregistries.AddAsync(registry);
+        }
+        
         var turbineEntity = new Turbinetelemetry()
         {
             TurbineId = dtoData.TurbineId,
