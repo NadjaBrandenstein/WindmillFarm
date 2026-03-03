@@ -90,6 +90,7 @@ public class Program
         
         
         // OpenAPI / Swagger
+        builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddOpenApiDocument(); // no DefaultPropertyNameHandling needed
 
         builder.Services.AddProblemDetails();
@@ -101,8 +102,8 @@ public class Program
             {
                 policy
                     .WithOrigins(
-                        // change to right address "https://jerne-if-doede-duer.fly.dev", 
-                        "http://localhost:5174"
+                        // change to right address later on 
+                        "http://localhost:5173"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
@@ -122,14 +123,15 @@ public class Program
 
         // Middleware pipeline
         app.UseRouting();
-
         app.UseCors("FrontendPolicy");
+        
 
         app.UseAuthentication();
         app.UseAuthorization();
         
         app.UseOpenApi();
         app.UseSwaggerUi();
+        
         if (app.Environment.IsDevelopment())
         {
             await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
@@ -138,7 +140,6 @@ public class Program
         app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
 
         app.MapControllers();
-        
         app.UseExceptionHandler();
 
         var mqttController = app.Services.GetRequiredService<IMqttClientService>();

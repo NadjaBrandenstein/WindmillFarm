@@ -145,12 +145,12 @@
         }
       }
     },
-    "/api/Telemetry/GetRecent": {
+    "/api/WindSpeed/GetRecent": {
       "get": {
         "tags": [
-          "Telemetry"
+          "WindSpeed"
         ],
-        "operationId": "Telemetry_GetRecent",
+        "operationId": "WindSpeed_GetRecent",
         "responses": {
           "200": {
             "description": "",
