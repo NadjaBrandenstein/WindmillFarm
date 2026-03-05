@@ -3,6 +3,7 @@ using api.Dtos;
 namespace Api.Controller;
 
 public record TurbineDto(
+    Guid Id,
     string TurbineId,
     string TurbineName,
     string FarmId,

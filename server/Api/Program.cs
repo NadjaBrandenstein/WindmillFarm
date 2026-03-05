@@ -11,7 +11,9 @@ using DataAccess.MyDbContext;
 using DataAccess.Repositories;
 using Mqtt.Controllers;
 using StackExchange.Redis;
+using StateleSSE.AspNetCore;
 using StateleSSE.AspNetCore.Extensions;
+using StateleSSE.AspNetCore.GroupRealtime;
 
 
 public class Program
@@ -70,13 +72,13 @@ public class Program
             });
 
         builder.Services.AddAuthorization();
+
+        builder.Services.AddInMemorySseBackplane();
+        builder.Services.AddEfRealtime();
+        builder.Services.AddGroupRealtime();
+       // builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect("localhost:6379"));
+
         
-        builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-            ConnectionMultiplexer.Connect("localhost:6379"));
-
-        //builder.Services.AddRedisSseBackplane();
-
-        //builder.Services.AddMqttControllers();
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -103,7 +105,7 @@ public class Program
                 policy
                     .WithOrigins(
                         // change to right address later on 
-                        "http://localhost:5173"
+                        "http://localhost:5174"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
@@ -137,7 +139,7 @@ public class Program
             await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
         }
         
-        app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
+        // app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
 
         app.MapControllers();
         app.UseExceptionHandler();

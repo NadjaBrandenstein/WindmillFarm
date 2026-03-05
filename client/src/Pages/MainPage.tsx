@@ -1,69 +1,127 @@
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
-import {useTelemetry} from "../Hooks/useTelemetry.ts";
+import {type Turbinetelemetry, WebClientClient} from "../generated-ts-client.ts";
+//import {useTelemetry} from "../Hooks/useTelemetry.ts";
 import '../CSS/MainPage.css'
+import {useEffect, useState} from "react";
+import {StateleSSEClient} from "statele-sse";
+
+const sse = new StateleSSEClient("http://localhost:5003/sse")
+const restClient = new WebClientClient("http://localhost:5003")
+
+const metrics = [
+    {key: 'windSpeed' as const, label: 'windSpeed', color: '#000'},
+    {key: 'windDirection' as const, label: 'windDirection', color: '#000'},
+    {key: 'ambientTemperature' as const, label: 'ambientTemperature', color: '#000'},
+    {key: 'rotorSpeed' as const, label: 'rotorSpeed', color: '#000'},
+    {key: 'powerOutput' as const, label: 'powerOutput', color: '#000'},
+    {key: 'nacelleDirection' as const, label: 'nacelleDirection', color: '#000'},
+    {key: 'bladePitch' as const, label: 'bladePitch', color: '#000'},
+    {key: 'generatorTemp' as const, label: 'generatorTemp', color: '#000'},
+    {key: 'gearboxTemp' as const, label: 'gearboxTemp', color: '#000'},
+    {key: 'vibration' as const, label: 'vibration', color: '#000'},
+    {key: 'status' as const, label: 'status', color: '#000'},
+] as const
 
 function MainPage(){
 
-    const telemetryData = useTelemetry();
+    //const telemetryData = useTelemetry();
 
-    const formattedData = telemetryData.map(d => ({
-        ...d,
-        time: new Date(d.timestamp).toLocaleTimeString()
-    }));
+    // const formattedData = telemetryData.map(d => ({
+    //     ...d,
+    //     time: new Date(d.timestamp).toLocaleTimeString()
+    // }));
 
-    return(
-        <div>
-            <h2 className="header">Turbine Alpha</h2>
+    const [measurements, setMeasurements] = useState<Turbinetelemetry[]>([])
 
-            <div className="container">
+    useEffect(()=>{
+        sse.listen(async (id) => {
+            const result = await restClient.getMeasurements(id);
+            return result;
+        }, (data) => {
+            setMeasurements(data)
+        })
+    }, []);
 
-                <div className="graph-wrapper">
-                    {Array.from({length: 10}).map((_, idx) => (
-                        <div className="graph-card" key={idx}>
-                            <ResponsiveContainer width="100%" height={250}>
-                                <LineChart data={formattedData}>
-                                    <CartesianGrid strokeDasharray="3 3"/>
-                                    <XAxis dataKey="time" />
-                                    <YAxis dataKey="windSpeed" domain={['auto', 'auto']}/>
-                                    <Tooltip />
-                                    <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" strokeWidth={2} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-                    ))}
+    const chartData = measurements.map(m => ({
+        ...m,
+            time: m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : '',
+    }))
+
+    return (
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, padding: 16}}>
+            {metrics.map(({key, label, color}) => (
+                <div key={key}>
+                    <h3>{label}</h3>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <LineChart data={chartData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="time" tick={{fontSize: 10}} />
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey={key} stroke={color} dot={false} />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
-
-                <div className="table-wrapper">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Alert/Command</th>
-                                <th>Timestamp</th>
-                                <th>Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.from({length: 15}).map((_, idx) => (
-                                <tr key={idx}>
-                                    <td>Gertrud </td>
-                                    <td>Turbine stopped </td>
-                                    <td>2026-02-28 19:35:25 </td>
-                                    <td>Some important message </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <button className="button-main">Start</button>
-            <button className="button-main">Stop</button>
-
-            <input className="input-main" type="text" placeholder="Blade Pitch"/>
-            <button className="button-main">Submit</button>
+            ))}
         </div>
     )
+
+    // return(
+    //     <div>
+    //         <h2 className="header">Turbine Alpha</h2>
+    //
+    //         <div className="main-wrapper">
+    //             <button className="button-main">Start</button>
+    //             <button className="button-main">Stop</button>
+    //
+    //             <input className="input-main" type="text" placeholder="Blade Pitch"/>
+    //             <button className="button-main">Submit</button>
+    //         </div>
+    //
+    //         <div className="container">
+    //
+    //             <div className="graph-wrapper">
+    //                 {Array.from({length: 10}).map((_, idx) => (
+    //                     <div className="graph-card" key={idx}>
+    //                         <ResponsiveContainer width="100%" height={250}>
+    //                             <LineChart data={formattedData}>
+    //                                 <CartesianGrid strokeDasharray="3 3"/>
+    //                                 <XAxis dataKey="time" />
+    //                                 <YAxis dataKey="windSpeed" domain={['auto', 'auto']}/>
+    //                                 <Tooltip />
+    //                                 <Line type="monotone" dataKey="windSpeed" stroke="#8884d8" strokeWidth={2} />
+    //                             </LineChart>
+    //                         </ResponsiveContainer>
+    //                     </div>
+    //                 ))}
+    //             </div>
+    //
+    //             <div className="table-wrapper">
+    //                 <table className="table">
+    //                     <thead>
+    //                         <tr>
+    //                             <th>Name</th>
+    //                             <th>Alert/Command</th>
+    //                             <th>Timestamp</th>
+    //                             <th>Message</th>
+    //                         </tr>
+    //                     </thead>
+    //                     <tbody>
+    //                         {Array.from({length: 15}).map((_, idx) => (
+    //                             <tr key={idx}>
+    //                                 <td>Gertrud </td>
+    //                                 <td>Turbine stopped </td>
+    //                                 <td>2026-02-28 19:35:25 </td>
+    //                                 <td>Some important message </td>
+    //                             </tr>
+    //                         ))}
+    //                     </tbody>
+    //                 </table>
+    //             </div>
+    //         </div>
+    //
+    //     </div>
+    // )
 }
 
 export default MainPage;

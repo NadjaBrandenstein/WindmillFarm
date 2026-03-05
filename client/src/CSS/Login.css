@@ -129,15 +129,15 @@
 
 
 .button-login[type="submit"]{
-    background: linear-gradient(135deg, #004B88, #0A66B2);
-    color: white;
-    border: none;
+    background: transparent;
+    border: 2px solid #004B88;
+    color: #004B88;
     transition: all 0.2s ease;
 }
 
 .button-login[type="submit"]:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 75, 136, 0.3);
+    background: #004B88;
+    color: white;
 }
 
 .button-login[type="button"]{

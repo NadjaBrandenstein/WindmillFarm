@@ -145,6 +145,49 @@
         }
       }
     },
+    "/GetMeasurements": {
+      "get": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_GetMeasurements",
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealtimeListenResponseOfListOfTurbinetelemetry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sse": {
+      "get": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_Connect",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/WindSpeed/GetRecent": {
       "get": {
         "tags": [
@@ -258,6 +301,116 @@
           "roleId": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "RealtimeListenResponseOfListOfTurbinetelemetry": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RealtimeListenResponse"
+          },
+          {
+            "type": "object",
+            "description": "Returned by subscribe endpoints with initial data. The client receives the current state\nimmediately and knows which SSE group to listen on for subsequent updates.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/Turbinetelemetry"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Turbinetelemetry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turbineId": {
+            "type": "string",
+            "nullable": true
+          },
+          "turbineName": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "windSpeed": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "windDirection": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "ambientTemp": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "rotorSpeed": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "powerOutput": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "nacelleDirection": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "bladePitch": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "generatorTemp": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "gearboxTemp": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "vibration": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RealtimeListenResponse": {
+        "type": "object",
+        "description": "Returned by subscribe endpoints so the client knows which SSE group to listen on.",
+        "additionalProperties": false,
+        "properties": {
+          "group": {
+            "type": "string"
           }
         }
       }

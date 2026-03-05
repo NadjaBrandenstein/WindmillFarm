@@ -14,50 +14,59 @@ public class WindmillFarmController(
     ) 
     : MqttController
 {
+
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
-    public async Task HandleTelemetry(string turbineId, TurbineDto dtoData)
+    public async Task HandleTelemetry(string turbineId, Turbinetelemetry dtoData)
     {
-        windSpeedService.AddReadingTelemetry(dtoData);
-        
-        logger.LogInformation($"Turbine: {turbineId}, Telemetry received");
-
-        var exists = await ctx.Turbineregistries
-            .AnyAsync(t => t.TurbineId == turbineId);
-
-        if (!exists)
-        {
-            var registry = new Turbineregistry()
-            {
-                TurbineId = turbineId,
-                TurbineName = turbineId,
-                FarmId = dtoData.FarmId,
-            };
-            ctx.Turbineregistries.AddAsync(registry);
-        }
-        
-        var turbineEntity = new Turbinetelemetry()
-        {
-            TurbineId = dtoData.TurbineId,
-            TurbineName = dtoData.TurbineName,
-            FarmId = dtoData.FarmId,
-            Timestamp = dtoData.Timestamp,
-            WindSpeed = dtoData.WindSpeed,
-            WindDirection = dtoData.WindDirection,
-            AmbientTemp = dtoData.AmbientTemperature,
-            RotorSpeed = dtoData.RotorSpeed,
-            PowerOutput = dtoData.PowerOutput,
-            NacelleDirection = dtoData.NacelleDirection,
-            BladePitch = dtoData.BladePitch,
-            GeneratorTemp = dtoData.GeneratorTemp,
-            GearboxTemp = dtoData.GearboxTemp,
-            Vibration = dtoData.Vibration,
-            Status = dtoData.Status
-        };
-        
-        ctx.Turbinetelemetries.Add(turbineEntity);
+        logger.LogInformation(JsonSerializer.Serialize(dtoData));
+        dtoData.TurbineId = turbineId;
+        ctx.Turbinetelemetries.Add(dtoData);
         await ctx.SaveChangesAsync();
-        
     }
+    // [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
+    // public async Task HandleTelemetry(string turbineId, TurbineDto dtoData)
+    // {
+    //     // windSpeedService.AddReadingTelemetry(dtoData);
+    //     
+    //     logger.LogInformation($"Turbine: {turbineId}, Telemetry received");
+    //
+    //     var exists = await ctx.Turbineregistries
+    //         .AnyAsync(t => t.TurbineId == turbineId);
+    //
+    //     if (!exists)
+    //     {
+    //         var registry = new Turbineregistry()
+    //         {
+    //             TurbineId = turbineId,
+    //             TurbineName = turbineId,
+    //             FarmId = dtoData.FarmId,
+    //         };
+    //         ctx.Turbineregistries.AddAsync(registry);
+    //     }
+    //     
+    //     var turbineEntity = new Turbinetelemetry()
+    //     {
+    //         TurbineId = dtoData.TurbineId,
+    //         TurbineName = dtoData.TurbineName,
+    //         FarmId = dtoData.FarmId,
+    //         Timestamp = dtoData.Timestamp,
+    //         WindSpeed = dtoData.WindSpeed,
+    //         WindDirection = dtoData.WindDirection,
+    //         AmbientTemp = dtoData.AmbientTemperature,
+    //         RotorSpeed = dtoData.RotorSpeed,
+    //         PowerOutput = dtoData.PowerOutput,
+    //         NacelleDirection = dtoData.NacelleDirection,
+    //         BladePitch = dtoData.BladePitch,
+    //         GeneratorTemp = dtoData.GeneratorTemp,
+    //         GearboxTemp = dtoData.GearboxTemp,
+    //         Vibration = dtoData.Vibration,
+    //         Status = dtoData.Status
+    //     };
+    //     
+    //     ctx.Turbinetelemetries.Add(turbineEntity);
+    //     await ctx.SaveChangesAsync();
+    //     
+    // }
     
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/alert")]
     public async Task HandleAlerts(string turbineId, AlertsDto alerts)
