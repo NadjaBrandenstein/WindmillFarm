@@ -10,11 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.MyDbContext;
 using DataAccess.Repositories;
 using Mqtt.Controllers;
-using StackExchange.Redis;
 using StateleSSE.AspNetCore;
-using StateleSSE.AspNetCore.Extensions;
 using StateleSSE.AspNetCore.GroupRealtime;
-
 
 public class Program
 {
@@ -37,11 +34,6 @@ public class Program
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
-        
-        builder.Services.AddSingleton<WindSpeedService>();
-        
-        
-        
         
         // Authentication & Authorization
         builder.Services.AddAuthentication(options =>
@@ -77,8 +69,7 @@ public class Program
         builder.Services.AddEfRealtime();
         builder.Services.AddGroupRealtime();
        // builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect("localhost:6379"));
-
-        
+       
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -87,9 +78,6 @@ public class Program
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         });
-        
-        
-        
         
         // OpenAPI / Swagger
         builder.Services.AddEndpointsApiExplorer();
@@ -139,8 +127,6 @@ public class Program
             await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
         }
         
-        // app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
-
         app.MapControllers();
         app.UseExceptionHandler();
 
