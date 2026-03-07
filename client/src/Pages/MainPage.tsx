@@ -47,23 +47,82 @@ function MainPage(){
             time: m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : '',
     }))
 
+    // return (
+    //     <div>
+    //         {metrics.map(({key, label, color}) => (
+    //             <div key={key}>
+    //                 <h3>{label}</h3>
+    //                 <ResponsiveContainer width="100%" height={250}>
+    //                     <LineChart data={chartData}>
+    //                         <CartesianGrid strokeDasharray="3 3" />
+    //                         <XAxis dataKey="time" tick={{fontSize: 10}} />
+    //                         <YAxis />
+    //                         <Tooltip />
+    //                         <Line type="monotone" dataKey={key} stroke={color} dot={false} />
+    //                     </LineChart>
+    //                 </ResponsiveContainer>
+    //             </div>
+    //         ))}
+    //     </div>
+    // )
+
     return (
-        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, padding: 16}}>
-            {metrics.map(({key, label, color}) => (
-                <div key={key}>
-                    <h3>{label}</h3>
-                    <ResponsiveContainer width="100%" height={250}>
-                        <LineChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="time" tick={{fontSize: 10}} />
-                            <YAxis />
-                            <Tooltip />
-                            <Line type="monotone" dataKey={key} stroke={color} dot={false} />
-                        </LineChart>
-                    </ResponsiveContainer>
+        <div>
+            <h2 className="header">Turbine Alpha</h2>
+
+            <div className="main-wrapper">
+                <button className="button-main">Start</button>
+                <button className="button-main">Stop</button>
+
+                <input className="input-main" type="text" placeholder="Blade Pitch"/>
+                <button className="button-main">Submit</button>
+            </div>
+
+            <div className="container">
+
+                <div className="graph-wrapper">
+                    {metrics.map(({key, label}) => (
+                        <div className="graph-card" key={key}>
+                            <h3>{label}</h3>
+                            <ResponsiveContainer width="100%" height={250}>
+                                <LineChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="time" tick={{fontSize: 10}} />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Line type="monotone" dataKey={key} stroke="#8884d8" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    ))}
                 </div>
-            ))}
+
+                <div className="table-wrapper">
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Alert/Command</th>
+                            <th>Timestamp</th>
+                            <th>Message</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {Array.from({length: 15}).map((_, idx) => (
+                            <tr key={idx}>
+                                <td>Gertrud </td>
+                                <td>Turbine stopped </td>
+                                <td>2026-02-28 19:35:25 </td>
+                                <td>Some important message </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
     )
 
     // return(
