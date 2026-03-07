@@ -9,17 +9,17 @@ const sse = new StateleSSEClient("http://localhost:5003/sse")
 const restClient = new WebClientClient("http://localhost:5003")
 
 const metrics = [
-    {key: 'windSpeed' as const, label: 'windSpeed', color: '#000'},
-    {key: 'windDirection' as const, label: 'windDirection', color: '#000'},
-    {key: 'ambientTemperature' as const, label: 'ambientTemperature', color: '#000'},
-    {key: 'rotorSpeed' as const, label: 'rotorSpeed', color: '#000'},
-    {key: 'powerOutput' as const, label: 'powerOutput', color: '#000'},
-    {key: 'nacelleDirection' as const, label: 'nacelleDirection', color: '#000'},
-    {key: 'bladePitch' as const, label: 'bladePitch', color: '#000'},
-    {key: 'generatorTemp' as const, label: 'generatorTemp', color: '#000'},
-    {key: 'gearboxTemp' as const, label: 'gearboxTemp', color: '#000'},
-    {key: 'vibration' as const, label: 'vibration', color: '#000'},
-    {key: 'status' as const, label: 'status', color: '#000'},
+    {key: 'windSpeed' as const, label: 'windSpeed', color: '#8884d8'},
+    {key: 'windDirection' as const, label: 'windDirection', color: '#8884d8'},
+    {key: 'ambientTemperature' as const, label: 'ambientTemperature', color: '#8884d8'},
+    {key: 'rotorSpeed' as const, label: 'rotorSpeed', color: '#8884d8'},
+    {key: 'powerOutput' as const, label: 'powerOutput', color: '#8884d8'},
+    {key: 'nacelleDirection' as const, label: 'nacelleDirection', color: '#8884d8'},
+    {key: 'bladePitch' as const, label: 'bladePitch', color: '#8884d8'},
+    {key: 'generatorTemp' as const, label: 'generatorTemp', color: '#8884d8'},
+    {key: 'gearboxTemp' as const, label: 'gearboxTemp', color: '#8884d8'},
+    {key: 'vibration' as const, label: 'vibration', color: '#8884d8'},
+    {key: 'status' as const, label: 'status', color: '#8884d8'},
 ] as const
 
 function MainPage(){
@@ -68,7 +68,12 @@ function MainPage(){
 
     return (
         <div>
-            <h2 className="header">Turbine Alpha</h2>
+            <select className="dropdown">
+                <option value="turbineAplha">Turbine Alpha</option>
+                <option value="turbineAplha">Turbine Beta</option>
+                <option value="turbineAplha">Turbine Gamma</option>
+                <option value="turbineAplha">Turbine Delta</option>
+            </select>
 
             <div className="main-wrapper">
                 <button className="button-main">Start</button>
