@@ -2,6 +2,7 @@
 using api.Dtos;
 using DataAccess.Entity;
 using DataAccess.MyDbContext;
+using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
 using StateleSSE.AspNetCore.EfRealtime;
 
@@ -20,6 +21,21 @@ public class WindmillFarmController(
     {
         logger.LogInformation(JsonSerializer.Serialize(dtoData));
         dtoData.TurbineId = turbineId;
+        
+        var exists = await ctx.Turbineregistries
+            .AnyAsync(t => t.TurbineId == turbineId);
+
+        if (!exists)
+        {
+            var registry = new Turbineregistry()
+            {
+                TurbineId = turbineId,
+                TurbineName = turbineId,
+                FarmId = dtoData.FarmId,
+            };
+            ctx.Turbineregistries.Add(registry);
+        }
+        
         ctx.Turbinetelemetries.Add(dtoData);
         await ctx.SaveChangesAsync();
     }

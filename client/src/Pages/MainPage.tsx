@@ -74,6 +74,11 @@ function MainPage(){
 
                 <input className="input-main" type="text" placeholder="Blade Pitch"/>
                 <button className="button-main">Submit</button>
+
+                <input className="input-main" type="text" placeholder="Set Interval"/>
+                <button className="button-main">Submit</button>
+
+                <input className="input-main" type="text" placeholder="Search"/>
             </div>
 
             <div className="container">

@@ -95,6 +95,7 @@ CREATE TABLE turbineTelemetry (
 -- ============================
 CREATE TABLE alert_command (
                                alert_id SERIAL PRIMARY KEY,
+                               turbine_id TEXT,
                                name TEXT NOT NULL,          -- combined: AlertName + User + Turbine
                                timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
                                description TEXT -- combined: Severity + Message

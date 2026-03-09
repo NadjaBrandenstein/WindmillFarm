@@ -41,6 +41,7 @@ public partial class MyDbContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("timestamp");
+            entity.Property(e => e.TurbineId).HasColumnName("turbine_id");
         });
 
         modelBuilder.Entity<Login>(entity =>

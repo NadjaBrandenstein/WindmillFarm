@@ -7,6 +7,8 @@ public partial class AlertCommand
 {
     public int AlertId { get; set; }
 
+    public string? TurbineId { get; set; }
+
     public string Name { get; set; } = null!;
 
     public DateTime Timestamp { get; set; }

@@ -21,10 +21,12 @@ public class Program
 
         // Use concrete AppDbContext instead of abstract DbContext
         var connectionString = appOptions.DbConnectionString;
-        builder.Services.AddDbContext<MyDbContext>(options =>
+        builder.Services.AddDbContext<MyDbContext>((sp, options) =>
+        {
+            options.AddEfRealtimeInterceptor(sp);
             options.UseNpgsql(connectionString)
-                   //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-        );
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
 
         // Repositories
         builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
@@ -94,7 +96,8 @@ public class Program
                 policy
                     .WithOrigins(
                         // change to right address later on 
-                        "http://localhost:5173"
+                        "http://localhost:5174",
+                        "https://localhost:5173"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
