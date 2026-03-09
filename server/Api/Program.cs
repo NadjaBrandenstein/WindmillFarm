@@ -32,6 +32,7 @@ public class Program
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
+        builder.Services.AddScoped<ICommandService, CommandService>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
         
