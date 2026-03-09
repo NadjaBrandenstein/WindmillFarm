@@ -258,6 +258,80 @@ export class WebClientClient {
         return Promise.resolve<RealtimeListenResponseOfListOfTurbinetelemetry>(null as any);
     }
 
+    getTurbines(): Promise<Turbineregistry[]> {
+        let url_ = this.baseUrl + "/GetTurbines";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetTurbines(_response);
+        });
+    }
+
+    protected processGetTurbines(response: Response): Promise<Turbineregistry[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Turbineregistry[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Turbineregistry[]>(null as any);
+    }
+
+    getMeasurementsPerTurbine(connectionId: string | undefined, turbineId: string | undefined): Promise<RealtimeListenResponseOfListOfTurbinetelemetry> {
+        let url_ = this.baseUrl + "/GetMeasurementsPerTurbine?";
+        if (connectionId === null)
+            throw new globalThis.Error("The parameter 'connectionId' cannot be null.");
+        else if (connectionId !== undefined)
+            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
+        if (turbineId === null)
+            throw new globalThis.Error("The parameter 'turbineId' cannot be null.");
+        else if (turbineId !== undefined)
+            url_ += "turbineId=" + encodeURIComponent("" + turbineId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetMeasurementsPerTurbine(_response);
+        });
+    }
+
+    protected processGetMeasurementsPerTurbine(response: Response): Promise<RealtimeListenResponseOfListOfTurbinetelemetry> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RealtimeListenResponseOfListOfTurbinetelemetry;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<RealtimeListenResponseOfListOfTurbinetelemetry>(null as any);
+    }
+
     connect(): Promise<void> {
         let url_ = this.baseUrl + "/sse";
         url_ = url_.replace(/[?&]$/, "");
@@ -347,6 +421,13 @@ export interface Turbinetelemetry {
     gearboxTemp?: number | undefined;
     vibration?: number | undefined;
     status?: string | undefined;
+}
+
+export interface Turbineregistry {
+    id?: number;
+    turbineId?: string | undefined;
+    turbineName?: string;
+    farmId?: string | undefined;
 }
 
 export interface FileResponse {

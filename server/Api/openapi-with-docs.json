@@ -175,6 +175,67 @@
         }
       }
     },
+    "/GetTurbines": {
+      "get": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_GetTurbines",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Turbineregistry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/GetMeasurementsPerTurbine": {
+      "get": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_GetMeasurementsPerTurbine",
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "turbineId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealtimeListenResponseOfListOfTurbinetelemetry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/sse": {
       "get": {
         "tags": [
@@ -390,6 +451,27 @@
         "properties": {
           "group": {
             "type": "string"
+          }
+        }
+      },
+      "Turbineregistry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turbineId": {
+            "type": "string",
+            "nullable": true
+          },
+          "turbineName": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

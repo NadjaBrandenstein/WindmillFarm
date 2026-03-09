@@ -10,7 +10,7 @@ public record TurbineDto(
     DateTime Timestamp,
     decimal WindSpeed,
     decimal WindDirection,
-    decimal AmbientTemperature, // <-- Changed this from AmbientTemp!
+    decimal AmbientTemperature,
     decimal RotorSpeed,
     decimal PowerOutput,
     decimal NacelleDirection,

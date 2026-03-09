@@ -1,12 +1,11 @@
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
-import {type Turbinetelemetry, WebClientClient} from "../generated-ts-client.ts";
-//import {useTelemetry} from "../Hooks/useTelemetry.ts";
+//import {type Turbinetelemetry, WebClientClient} from "../generated-ts-client.ts";
+import {useTelemetry} from "../Hooks/useTelemetry.ts";
 import '../CSS/MainPage.css'
-import {useEffect, useState} from "react";
-import {StateleSSEClient} from "statele-sse";
+import {useState} from "react";
+import {useTurbines} from "../Hooks/useTurbines.ts";
 
-const sse = new StateleSSEClient("http://localhost:5003/sse")
-const restClient = new WebClientClient("http://localhost:5003")
+
 
 const metrics = [
     {key: 'windSpeed' as const, label: 'windSpeed', color: '#8884d8'},
@@ -24,23 +23,11 @@ const metrics = [
 
 function MainPage(){
 
-    //const telemetryData = useTelemetry();
+    const [selectedTurbineId, setSelectedTurbineId] = useState<string | null>(null)
 
-    // const formattedData = telemetryData.map(d => ({
-    //     ...d,
-    //     time: new Date(d.timestamp).toLocaleTimeString()
-    // }));
+    const turbines = useTurbines();
+    const measurements = useTelemetry(selectedTurbineId)
 
-    const [measurements, setMeasurements] = useState<Turbinetelemetry[]>([])
-
-    useEffect(()=>{
-        sse.listen(async (id) => {
-            const result = await restClient.getMeasurements(id);
-            return result;
-        }, (data) => {
-            setMeasurements(data)
-        })
-    }, []);
 
     const chartData = measurements.map(m => ({
         ...m,
@@ -68,11 +55,17 @@ function MainPage(){
 
     return (
         <div>
-            <select className="dropdown">
-                <option value="turbineAplha">Turbine Alpha</option>
-                <option value="turbineAplha">Turbine Beta</option>
-                <option value="turbineAplha">Turbine Gamma</option>
-                <option value="turbineAplha">Turbine Delta</option>
+            <select className="dropdown"
+                value={selectedTurbineId ?? ""}
+                onChange={e => setSelectedTurbineId(e.target.value)}>
+
+                <option value="" disabled>Select a turbine</option>
+
+                {turbines.map(turbine => (
+                    <option key={turbine.turbineId} value={turbine.turbineId}>
+                        {turbine.turbineName}
+                    </option>
+                ))}
             </select>
 
             <div className="main-wrapper">
