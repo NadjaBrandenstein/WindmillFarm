@@ -1,18 +1,29 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
-using Mqtt.Controllers;
-
-namespace Api.Controller;
+﻿using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CommandController(IMqttClientService mqtt) : ControllerBase
+[Produces("application/json")]
+public class CommandController(
+    ICommandService service)
+    : ControllerBase
 {
-    [HttpPost("{turbineId}/command")]
-    public async Task SendCommand(string turbineId, [FromBody] JsonElement command)
+    [HttpPost("{turbineId}")]
+    public async Task<IActionResult> SendCommand(
+        string turbineId,
+        [FromBody] TurbineCommandDto command)
     {
-        await mqtt.PublishAsync($"farm/EB_Windmill/windmill/{{turbineId}}/command",
-            command.GetRawText());
+        try
+        {
+            await service.SendCommandAsync(turbineId, command);
+            return Ok(new { message = "Command sent successfully" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                message = ex.Message,
+                stackTrace = ex.StackTrace
+            });
+        }
     }
-    
 }
