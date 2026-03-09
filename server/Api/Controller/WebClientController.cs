@@ -50,7 +50,7 @@ public class WebClientController(
             criteria: snapshot => snapshot.HasChanges<Turbinetelemetry>(),
             query: async context =>
             {
-                return ctx.Turbinetelemetries
+                return context.Turbinetelemetries
                     .Where(turbine => turbine.TurbineId == turbineId)
                     .OrderByDescending(turbine => turbine.Timestamp)
                     .Take(50)
