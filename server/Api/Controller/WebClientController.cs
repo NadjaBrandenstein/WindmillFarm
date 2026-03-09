@@ -20,18 +20,22 @@ public class WebClientController(
     {
         var group = "Turbinetelemetries";
         await backplane.Groups.AddToGroupAsync(connectionId, group);
+        
         realtimeManager.Subscribe<MyDbContext>(connectionId, group,
-            criteria: snapshot =>
-            {
-                return snapshot.HasChanges<Turbinetelemetry>();
-            },
-            query: async context =>
-            {
-                return ctx.Turbinetelemetries.ToList();
-            }
-            );
-        return new RealtimeListenResponse<List<Turbinetelemetry>>(group, ctx.Turbinetelemetries.ToList());
+            criteria: snapshot => snapshot.HasAdded<Turbinetelemetry>(),
+            query: async context => await context.Turbinetelemetries
+                .OrderByDescending(t => t.Timestamp)
+                .Take(20)
+                .ToListAsync());
+        
+        var data = await ctx.Turbinetelemetries
+            .OrderByDescending(t => t.Timestamp)
+            .Take(20)
+            .ToListAsync();
+        
+        return new RealtimeListenResponse<List<Turbinetelemetry>>(group, data);
     }
+
     
     [HttpGet(nameof(GetTurbines))]
     public async Task<ActionResult<List<Turbineregistry>>> GetTurbines()

@@ -23,7 +23,7 @@ public class Program
         var connectionString = appOptions.DbConnectionString;
         builder.Services.AddDbContext<MyDbContext>(options =>
             options.UseNpgsql(connectionString)
-                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                   //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
         );
 
         // Repositories

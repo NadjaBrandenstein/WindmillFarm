@@ -1,21 +1,22 @@
 ﻿using System.Text.Json;
 using api.Dtos;
-using Api.Service;
 using DataAccess.Entity;
 using DataAccess.MyDbContext;
-using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
+using StateleSSE.AspNetCore.EfRealtime;
 
 namespace Api.Controller;
 
 public class WindmillFarmController(
-    ILogger<WindmillFarmController> logger, MyDbContext ctx
+    ILogger<WindmillFarmController> logger, 
+    MyDbContext ctx,
+    IRealtimeManager  realtimeManager
     ) 
     : MqttController
 {
 
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
-    public async Task HandleTelemetry(string turbineId, Turbinetelemetry dtoData)
+    public async Task SaveTelemetry(string turbineId, Turbinetelemetry dtoData)
     {
         logger.LogInformation(JsonSerializer.Serialize(dtoData));
         dtoData.TurbineId = turbineId;
