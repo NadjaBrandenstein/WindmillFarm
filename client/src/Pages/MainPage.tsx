@@ -4,7 +4,7 @@ import {useTelemetry} from "../Hooks/useTelemetry.ts";
 import '../CSS/MainPage.css'
 import {useState} from "react";
 import {useTurbines} from "../Hooks/useTurbines.ts";
-
+import {useCommand} from "../Hooks/useCommand.ts";
 
 
 const metrics = [
@@ -27,6 +27,38 @@ function MainPage(){
 
     const turbines = useTurbines();
     const measurements = useTelemetry(selectedTurbineId)
+
+    const {sendCommand, loading} = useCommand();
+    const [valueInterval, setValueInterval] = useState<string>("");
+    const [valueBladePitch, setValueBladePitch] = useState<string>("");
+
+    const start = () => {
+        if(!selectedTurbineId) return alert(
+           "Please select a turbine from the dropdown menu"
+        );
+        sendCommand(selectedTurbineId, {action: 'start'});
+    }
+
+    const stop = () => {
+        if(!selectedTurbineId) return alert(
+            "Please select a turbine from the dropdown menu"
+        );
+        sendCommand(selectedTurbineId, {action: 'stop', reason: 'manual stop'});
+    }
+
+    const setInterval = () => {
+        if(!selectedTurbineId) return alert(
+            "Please select a turbine from the dropdown menu"
+        );
+        sendCommand(selectedTurbineId, {action: "setInterval", value: Number(valueInterval)});
+    }
+
+    const setBladePitch = () => {
+        if(!selectedTurbineId) return alert(
+            "Please select a turbine from the dropdown menu"
+        );
+        sendCommand(selectedTurbineId, {action: 'setBladePitch', angle: Number(valueBladePitch)});
+    }
 
 
     const chartData = measurements.map(m => ({
@@ -69,14 +101,14 @@ function MainPage(){
             </select>
 
             <div className="main-wrapper">
-                <button className="button-main">Start</button>
-                <button className="button-main">Stop</button>
+                <button className="button-main" onClick={start} disabled={!selectedTurbineId || loading}>Start</button>
+                <button className="button-main" onClick={stop} disabled={!selectedTurbineId || loading}>Stop</button>
 
-                <input className="input-main" type="text" placeholder="Blade Pitch"/>
-                <button className="button-main">Submit</button>
+                <input className="input-main" onChange={e => setValueBladePitch(e.target.value)} type="text" placeholder="Blade Pitch"/>
+                <button className="button-main" onClick={setBladePitch} disabled={!selectedTurbineId || loading}>Submit</button>
 
-                <input className="input-main" type="text" placeholder="Set Interval"/>
-                <button className="button-main">Submit</button>
+                <input className="input-main" onChange={e => setValueInterval(e.target.value)} type="text" placeholder="Set Interval"/>
+                <button className="button-main" onClick={setInterval} disabled={!selectedTurbineId || loading}>Submit</button>
 
                 <input className="input-main" type="text" placeholder="Search"/>
             </div>
