@@ -1,5 +1,5 @@
 import { TOKEN_KEY, tokenStorage } from "./Atoms/Auth.ts";
-import { AuthClient} from "./generated-ts-client.ts";
+import { AuthClient, CommandClient} from "./generated-ts-client.ts";
 
 export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
@@ -20,3 +20,4 @@ export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
 export const apiUrl = import.meta.env.VITE_API_URL;
 
 export const authClient = new AuthClient(apiUrl, { fetch: customFetch });
+export const commandClient = new CommandClient(apiUrl, {fetch: customFetch});

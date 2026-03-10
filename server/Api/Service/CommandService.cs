@@ -46,7 +46,7 @@ public class CommandService (
                     throw new Exception("Value must be between 1-60");
                 break;
 
-            case "setpitch":
+            case "setbladepitch":
                 if (command.Angle is null or < 0 or > 30)
                     throw new Exception("Angle must be between 0-30");
                 break;
