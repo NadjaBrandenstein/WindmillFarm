@@ -96,8 +96,8 @@ public class Program
                 policy
                     .WithOrigins(
                         // change to right address later on 
-                        "http://localhost:5174",
-                        "https://localhost:5173"
+                        "http://localhost:5173",
+                        "https://localhost:5174"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
