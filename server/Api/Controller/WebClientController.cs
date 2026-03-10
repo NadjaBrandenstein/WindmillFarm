@@ -26,11 +26,13 @@ public class WebClientController(
             query: async context => await context.Turbinetelemetries
                 .OrderByDescending(t => t.Timestamp)
                 .Take(20)
+                .OrderBy(t => t.Timestamp)
                 .ToListAsync());
         
         var data = await ctx.Turbinetelemetries
             .OrderByDescending(t => t.Timestamp)
             .Take(20)
+            .OrderBy(t => t.Timestamp)
             .ToListAsync();
         
         return new RealtimeListenResponse<List<Turbinetelemetry>>(group, data);
@@ -58,6 +60,7 @@ public class WebClientController(
                     .Where(turbine => turbine.TurbineId == turbineId)
                     .OrderByDescending(turbine => turbine.Timestamp)
                     .Take(50)
+                    .OrderBy(turbine => turbine.Timestamp)
                     .ToList();
             }
             );
@@ -65,6 +68,7 @@ public class WebClientController(
             .Where(turbine => turbine.TurbineId == turbineId)
             .OrderByDescending(turbine => turbine.Timestamp)
             .Take(50)
+            .OrderBy(turbine => turbine.Timestamp)
             .ToList();
         
         return new RealtimeListenResponse<List<Turbinetelemetry>>(group, initial);
