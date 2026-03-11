@@ -17,7 +17,7 @@ const metrics = [
     {key: 'generatorTemp' as const, label: 'generatorTemp', color: '#8884d8'},
     {key: 'gearboxTemp' as const, label: 'gearboxTemp', color: '#8884d8'},
     {key: 'vibration' as const, label: 'vibration', color: '#8884d8'},
-    {key: 'status' as const, label: 'status', color: '#8884d8'},
+    //{key: 'status' as const, label: 'status', color: '#8884d8'},
 ] as const
 
 function MainPage(){

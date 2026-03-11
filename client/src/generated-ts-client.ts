@@ -427,7 +427,7 @@ export interface Turbinetelemetry {
     timestamp?: string;
     windSpeed?: number | undefined;
     windDirection?: number | undefined;
-    ambientTemp?: number | undefined;
+    ambientTemperature?: number | undefined;
     rotorSpeed?: number | undefined;
     powerOutput?: number | undefined;
     nacelleDirection?: number | undefined;

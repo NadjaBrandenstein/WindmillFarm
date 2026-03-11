@@ -19,7 +19,7 @@ public partial class Turbinetelemetry
 
     public decimal? WindDirection { get; set; }
 
-    public decimal? AmbientTemp { get; set; }
+    public decimal? AmbientTemperature { get; set; }
 
     public decimal? RotorSpeed { get; set; }
 
