@@ -28,6 +28,7 @@ public class CommandService (
         
         var log = new AlertCommand
         {
+            TurbineId = turbineId,
             Name = command.Action,
             Timestamp = DateTime.Now,
             Description = payload

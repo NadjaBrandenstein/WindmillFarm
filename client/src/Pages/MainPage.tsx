@@ -118,7 +118,7 @@ function MainPage(){
                     <table className="table">
                         <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Turbine</th>
                             <th>Alert/Command</th>
                             <th>Timestamp</th>
                             <th>Message</th>
@@ -128,9 +128,9 @@ function MainPage(){
                         {alerts.map(alert => (
                             <tr key={alert.alertId}>
                                 <td>{alert.turbineId} </td>
-                                <td>Turbine stopped </td>
-                                <td>2026-02-28 19:35:25 </td>
-                                <td>Some important message </td>
+                                <td>{alert.name} </td>
+                                <td>{alert.timestamp} </td>
+                                <td>{alert.description} </td>
                             </tr>
                         ))}
                         </tbody>
