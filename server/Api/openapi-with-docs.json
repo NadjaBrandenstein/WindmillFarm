@@ -469,7 +469,7 @@
             "format": "decimal",
             "nullable": true
           },
-          "ambientTemp": {
+          "ambientTemperature": {
             "type": "number",
             "format": "decimal",
             "nullable": true
