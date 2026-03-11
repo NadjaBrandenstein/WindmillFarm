@@ -49,7 +49,7 @@ public class WindmillFarmController(
         {
             TurbineId = turbineId,
             Name = alerts.severity,
-            Timestamp = DateTime.SpecifyKind(alerts.Timestamp, DateTimeKind.Unspecified),
+            //Timestamp = DateTime.SpecifyKind(alerts.Timestamp, DateTimeKind.Unspecified),
             Description = alerts.message
         };
 

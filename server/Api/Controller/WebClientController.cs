@@ -69,4 +69,35 @@ public class WebClientController(
         
         return new RealtimeListenResponse<List<Turbinetelemetry>>(group, initial);
     }
+
+    [HttpGet(nameof(GetAlertsPerTurbine))]
+    public async Task<RealtimeListenResponse<List<AlertCommand>>> GetAlertsPerTurbine(string connectionId,
+        string turbineId)
+    {
+        var group = $"AlertCommands: {turbineId}";
+        
+        await backplane.Groups.AddToGroupAsync(connectionId, group);
+
+        realtimeManager.Subscribe<MyDbContext>(connectionId, group, 
+            criteria: snapshot => snapshot.HasChanges<AlertCommand>(),
+            query: async context =>
+            {
+                return context.AlertCommands
+                    .Where(a => a.TurbineId == turbineId)
+                    .OrderByDescending(a => a.Timestamp)
+                    .Take(50)
+                    .ToList();
+            }
+        );
+        
+        var initial = ctx.AlertCommands
+            .Where(alert => alert.TurbineId == turbineId)
+            .OrderByDescending(alert => alert.Timestamp)
+            .Take(50)
+            .ToList();
+        
+        return new RealtimeListenResponse<List<AlertCommand>>(group, initial);
+    }
+    
+    
 }

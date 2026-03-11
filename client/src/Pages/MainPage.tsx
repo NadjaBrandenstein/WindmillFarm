@@ -5,6 +5,7 @@ import '../CSS/MainPage.css'
 import {useState} from "react";
 import {useTurbines} from "../Hooks/useTurbines.ts";
 import {useCommand} from "../Hooks/useCommand.ts";
+import {useAlerts} from "../Hooks/useAlerts.ts";
 
 
 const metrics = [
@@ -27,6 +28,7 @@ function MainPage(){
 
     const turbines = useTurbines();
     const measurements = useTelemetry(selectedTurbineId)
+    const alerts = useAlerts(selectedTurbineId);
 
     const {sendCommand, loading} = useCommand();
     const [valueInterval, setValueInterval] = useState<string>("");
@@ -143,9 +145,9 @@ function MainPage(){
                         </tr>
                         </thead>
                         <tbody>
-                        {Array.from({length: 15}).map((_, idx) => (
-                            <tr key={idx}>
-                                <td>Gertrud </td>
+                        {alerts.map(alert => (
+                            <tr key={alert.alertId}>
+                                <td>{alert.turbineId} </td>
                                 <td>Turbine stopped </td>
                                 <td>2026-02-28 19:35:25 </td>
                                 <td>Some important message </td>
