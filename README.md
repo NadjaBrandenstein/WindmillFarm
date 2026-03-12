@@ -4,7 +4,9 @@ Team name: Early Birds
 Team members:
 
 Vladyslav Zavdskyi
+
 Nadja Brandenstein
+
 Jesper Svoldgaard
 
 About this project
