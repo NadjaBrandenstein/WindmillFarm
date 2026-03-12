@@ -16,7 +16,6 @@ export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     return await fetch(url, init);
 };
 
-
 export const apiUrl = import.meta.env.VITE_API_URL;
 
 export const authClient = new AuthClient(apiUrl, { fetch: customFetch });

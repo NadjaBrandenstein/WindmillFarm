@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using DataAccess.Entity;
+﻿using DataAccess.Entity;
 using DataAccess.MyDbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +11,7 @@ namespace Api.Controller;
 public class WebClientController(
     ISseBackplane backplane,
     IRealtimeManager realtimeManager,
-    MyDbContext ctx,
-    IGroupRealtimeManager groupRealtimeManager) : RealtimeControllerBase(backplane)
+    MyDbContext ctx) : RealtimeControllerBase(backplane)
 {
     
     [HttpGet(nameof(GetTurbines))]
@@ -40,7 +38,7 @@ public class WebClientController(
                     .OrderBy(turbine => turbine.Timestamp)
                     .ToList();
             }
-            );
+        );
         var initial = ctx.Turbinetelemetries
             .Where(turbine => turbine.TurbineId == turbineId)
             .OrderByDescending(turbine => turbine.Timestamp)
@@ -79,6 +77,4 @@ public class WebClientController(
         
         return new RealtimeListenResponse<List<AlertCommand>>(group, initial);
     }
-    
-    
 }

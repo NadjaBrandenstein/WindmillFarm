@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
-
 public class UserRepository(MyDbContext.MyDbContext context) : BaseRepository<User>(context)
 {
     protected override DbSet<User> Set => Context.Set<User>();
 }
-
 
 public abstract class BaseRepository<T>(MyDbContext.MyDbContext context) : IRepository<T>
     where T : class

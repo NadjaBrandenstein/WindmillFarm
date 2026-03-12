@@ -111,7 +111,6 @@
 }
 
 .button-login{
-    /*background: #00A637;*/
     color: #FFFFFF;
     border: none;
     height: 40px;
@@ -130,7 +129,6 @@
     padding-right: 30px;
     cursor: pointer;
 }
-
 
 .button-login[type="submit"]{
     background: transparent;

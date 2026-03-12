@@ -4,18 +4,13 @@ using DataAccess.Entity;
 using DataAccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
-using StateleSSE.AspNetCore.EfRealtime;
 
 namespace Api.Controller;
 
 public class WindmillFarmController(
     ILogger<WindmillFarmController> logger, 
-    MyDbContext ctx,
-    IRealtimeManager  realtimeManager
-    ) 
-    : MqttController
+    MyDbContext ctx) : MqttController
 {
-
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/telemetry")]
     public async Task SaveTelemetry(string turbineId, Turbinetelemetry dtoData)
     {
@@ -49,12 +44,10 @@ public class WindmillFarmController(
         {
             TurbineId = turbineId,
             Name = alerts.severity,
-            //Timestamp = DateTime.SpecifyKind(alerts.Timestamp, DateTimeKind.Unspecified),
             Description = alerts.message
         };
 
         ctx.AlertCommands.Add(alertEntity);
         await ctx.SaveChangesAsync();
-
     }
 }

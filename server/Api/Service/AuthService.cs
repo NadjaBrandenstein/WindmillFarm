@@ -7,7 +7,6 @@ using DataAccess.Entity;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 
-
 namespace Api.Service;
 
 public class AuthService : IAuthService
@@ -82,8 +81,7 @@ public class AuthService : IAuthService
 
         return login.ToDto(profile);
     }
-
-
+    
     public async Task<AuthUserInfoDto?> GetUserInfoAsync(ClaimsPrincipal principal)
     {
         var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);

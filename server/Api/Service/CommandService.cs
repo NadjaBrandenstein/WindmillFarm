@@ -4,7 +4,6 @@ using DataAccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
 
-
 public class CommandService (
     IMqttClientService mqtt,
     MyDbContext ctx)
@@ -20,7 +19,6 @@ public class CommandService (
         
         ValidateCommand(command);
         Console.WriteLine($"Publishing command to turbine ID: {turbineId}");
-        
         
         var topic = $"farm/EB_Windmill/windmill/{turbineId}/command";
 

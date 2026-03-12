@@ -71,7 +71,6 @@ public class Program
         builder.Services.AddInMemorySseBackplane();
         builder.Services.AddEfRealtime();
         builder.Services.AddGroupRealtime();
-       // builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect("localhost:6379"));
        
         // Controllers & OpenAPI / Swagger
         builder.Services.AddControllers().AddJsonOptions(options =>

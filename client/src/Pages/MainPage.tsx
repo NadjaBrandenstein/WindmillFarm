@@ -64,7 +64,6 @@ function MainPage(){
         sendCommand(selectedTurbineId, {action: 'setPitch', angle: Number(valueBladePitch)});
     }
 
-
     const chartData = measurements.map(m => ({
         ...m,
             time: m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : '',
@@ -145,7 +144,6 @@ function MainPage(){
             </div>
 
         </div>
-
     )
 }
 

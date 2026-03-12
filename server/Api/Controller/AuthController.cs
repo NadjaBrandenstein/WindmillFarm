@@ -1,8 +1,6 @@
-﻿using Api.Dtos.Request;
-using Api.Dtos.Response.Response;
+﻿using Api.Dtos.Response.Response;
 using Api.Service;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using LoginRequest = Api.Dtos.Request.LoginRequest;
 using RegisterRequest = Api.Dtos.Request.RegisterRequest;

@@ -2,7 +2,6 @@ import type {TurbineCommandDto} from "../generated-ts-client.ts";
 import {commandClient} from "../api-clients.ts";
 import {useState} from "react";
 
-
 export const useCommand = () => {
 
     const [loading, setLoading] = useState(false);

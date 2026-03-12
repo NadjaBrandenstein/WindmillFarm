@@ -6,9 +6,6 @@ import {finalBaseUrl} from "../BaseUrl.ts";
 
 const sse = new StateleSSEClient(finalBaseUrl + "/sse");
 
-//const sse = new StateleSSEClient("http://localhost:5003/sse")
-//const sse = new StateleSSEClient("https://windmill-farm-server.fly.dev/sse")
-
 export const useAlerts = (selectedTurbineId: string | null): AlertCommand[] => {
 
     const [alerts, setAlerts] = useState<AlertCommand[]>([])

@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Api.Dtos.Response;
 
 namespace Api.Security;
 
