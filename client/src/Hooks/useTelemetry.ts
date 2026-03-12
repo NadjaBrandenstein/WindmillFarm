@@ -1,10 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import {StateleSSEClient} from "statele-sse";
-import { type Turbinetelemetry, WebClientClient} from "../generated-ts-client.ts";
+import { type Turbinetelemetry} from "../generated-ts-client.ts";
+import {webClient} from "../api-clients.ts";
+import {finalBaseUrl} from "../BaseUrl.ts";
 
-const sse = new StateleSSEClient("http://localhost:5003/sse")
-const restClient = new WebClientClient("http://localhost:5003")
+const sse = new StateleSSEClient(finalBaseUrl + "/sse");
 
+//const sse = new StateleSSEClient("http://localhost:5003/sse")
+//const sse = new StateleSSEClient("https://windmill-farm-server.fly.dev/sse")
 
 export const useTelemetry = (selectedTurbineId: string | null) => {
 
@@ -20,7 +23,7 @@ export const useTelemetry = (selectedTurbineId: string | null) => {
         }
 
         const cleanup = sse.listen(
-            async (id) => await restClient.getMeasurementsPerTurbine(id, selectedTurbineId),
+            async (id) => await webClient.getMeasurementsPerTurbine(id, selectedTurbineId),
             (data) => setMeasurements(data)
         )
 

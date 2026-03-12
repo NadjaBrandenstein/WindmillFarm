@@ -12,7 +12,8 @@
     "../Hooks/**/*.ts",
     "../Hooks/**/*.tsx",
     "../api-clients.ts",
-    "../vite-env.d.ts"],
+    "../vite-env.d.ts",
+    "../BaseUrl.ts"],
   "references": [{
     "path": "../Utils"
   }]

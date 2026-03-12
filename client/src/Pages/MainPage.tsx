@@ -1,5 +1,4 @@
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
-//import {type Turbinetelemetry, WebClientClient} from "../generated-ts-client.ts";
 import {useTelemetry} from "../Hooks/useTelemetry.ts";
 import '../CSS/MainPage.css'
 import {useState} from "react";

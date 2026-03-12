@@ -95,7 +95,7 @@ public class Program
             {
                 policy
                     .WithOrigins(
-                        // change to right address later on 
+                        "https://windmill-farm-client.fly.dev",
                         "http://localhost:5173",
                         "http://localhost:5174"
                     )

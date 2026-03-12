@@ -1,9 +1,13 @@
-import {type AlertCommand, WebClientClient} from "../generated-ts-client.ts";
+import {type AlertCommand} from "../generated-ts-client.ts";
 import {StateleSSEClient} from "statele-sse";
 import {useEffect, useRef, useState} from "react";
+import {webClient} from "../api-clients.ts";
+import {finalBaseUrl} from "../BaseUrl.ts";
 
-const sse = new StateleSSEClient("http://localhost:5003/sse")
-const restClient = new WebClientClient("http://localhost:5003")
+const sse = new StateleSSEClient(finalBaseUrl + "/sse");
+
+//const sse = new StateleSSEClient("http://localhost:5003/sse")
+//const sse = new StateleSSEClient("https://windmill-farm-server.fly.dev/sse")
 
 export const useAlerts = (selectedTurbineId: string | null): AlertCommand[] => {
 
@@ -19,7 +23,7 @@ export const useAlerts = (selectedTurbineId: string | null): AlertCommand[] => {
         }
 
         const cleanup = sse.listen(
-            async (id) => await restClient.getAlertsPerTurbine(id, selectedTurbineId),
+            async (id) => await webClient.getAlertsPerTurbine(id, selectedTurbineId),
             (data) => setAlerts(data)
         )
 
