@@ -15,27 +15,6 @@ public class WebClientController(
     MyDbContext ctx,
     IGroupRealtimeManager groupRealtimeManager) : RealtimeControllerBase(backplane)
 {
-    [HttpGet(nameof(GetMeasurements))]
-    public async Task<RealtimeListenResponse<List<Turbinetelemetry>>> GetMeasurements(string connectionId)
-    {
-        var group = "Turbinetelemetries";
-        await backplane.Groups.AddToGroupAsync(connectionId, group);
-        
-        realtimeManager.Subscribe<MyDbContext>(connectionId, group,
-            criteria: snapshot => snapshot.HasAdded<Turbinetelemetry>(),
-            query: async context => await context.Turbinetelemetries
-                .OrderByDescending(t => t.Timestamp)
-                .Take(20)
-                .ToListAsync());
-        
-        var data = await ctx.Turbinetelemetries
-            .OrderByDescending(t => t.Timestamp)
-            .Take(20)
-            .ToListAsync();
-        
-        return new RealtimeListenResponse<List<Turbinetelemetry>>(group, data);
-    }
-
     
     [HttpGet(nameof(GetTurbines))]
     public async Task<ActionResult<List<Turbineregistry>>> GetTurbines()
@@ -58,6 +37,7 @@ public class WebClientController(
                     .Where(turbine => turbine.TurbineId == turbineId)
                     .OrderByDescending(turbine => turbine.Timestamp)
                     .Take(50)
+                    .OrderBy(turbine => turbine.Timestamp)
                     .ToList();
             }
             );
@@ -65,8 +45,40 @@ public class WebClientController(
             .Where(turbine => turbine.TurbineId == turbineId)
             .OrderByDescending(turbine => turbine.Timestamp)
             .Take(50)
+            .OrderBy(turbine => turbine.Timestamp)
             .ToList();
         
         return new RealtimeListenResponse<List<Turbinetelemetry>>(group, initial);
     }
+
+    [HttpGet(nameof(GetAlertsPerTurbine))]
+    public async Task<RealtimeListenResponse<List<AlertCommand>>> GetAlertsPerTurbine(string connectionId,
+        string turbineId)
+    {
+        var group = $"AlertCommands: {turbineId}";
+        
+        await backplane.Groups.AddToGroupAsync(connectionId, group);
+
+        realtimeManager.Subscribe<MyDbContext>(connectionId, group, 
+            criteria: snapshot => snapshot.HasChanges<AlertCommand>(),
+            query: async context =>
+            {
+                return context.AlertCommands
+                    .Where(a => a.TurbineId == turbineId)
+                    .OrderByDescending(a => a.Timestamp)
+                    .Take(50)
+                    .ToList();
+            }
+        );
+        
+        var initial = ctx.AlertCommands
+            .Where(alert => alert.TurbineId == turbineId)
+            .OrderByDescending(alert => alert.Timestamp)
+            .Take(50)
+            .ToList();
+        
+        return new RealtimeListenResponse<List<AlertCommand>>(group, initial);
+    }
+    
+    
 }

@@ -79,7 +79,7 @@ CREATE TABLE turbineTelemetry (
                                   timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                   wind_speed NUMERIC,
                                   wind_direction NUMERIC,
-                                  ambient_temp NUMERIC,
+                                  ambient_temperature NUMERIC,
                                   rotor_speed NUMERIC,
                                   power_output NUMERIC,
                                   nacelle_direction NUMERIC,

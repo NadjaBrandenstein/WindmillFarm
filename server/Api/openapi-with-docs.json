@@ -155,36 +155,6 @@
         }
       }
     },
-    "/GetMeasurements": {
-      "get": {
-        "tags": [
-          "WebClient"
-        ],
-        "operationId": "WebClient_GetMeasurements",
-        "parameters": [
-          {
-            "name": "connectionId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RealtimeListenResponseOfListOfTurbinetelemetry"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/GetTurbines": {
       "get": {
         "tags": [
@@ -239,6 +209,44 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RealtimeListenResponseOfListOfTurbinetelemetry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/GetAlertsPerTurbine": {
+      "get": {
+        "tags": [
+          "WebClient"
+        ],
+        "operationId": "WebClient_GetAlertsPerTurbine",
+        "parameters": [
+          {
+            "name": "connectionId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "turbineId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RealtimeListenResponseOfListOfAlertCommand"
                 }
               }
             }
@@ -377,6 +385,27 @@
           }
         }
       },
+      "Turbineregistry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turbineId": {
+            "type": "string",
+            "nullable": true
+          },
+          "turbineName": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "RealtimeListenResponseOfListOfTurbinetelemetry": {
         "allOf": [
           {
@@ -431,7 +460,7 @@
             "format": "decimal",
             "nullable": true
           },
-          "ambientTemp": {
+          "ambientTemperature": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -487,11 +516,32 @@
           }
         }
       },
-      "Turbineregistry": {
+      "RealtimeListenResponseOfListOfAlertCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RealtimeListenResponse"
+          },
+          {
+            "type": "object",
+            "description": "Returned by subscribe endpoints with initial data. The client receives the current state\nimmediately and knows which SSE group to listen on for subsequent updates.",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AlertCommand"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "AlertCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
+          "alertId": {
             "type": "integer",
             "format": "int32"
           },
@@ -499,10 +549,14 @@
             "type": "string",
             "nullable": true
           },
-          "turbineName": {
+          "name": {
             "type": "string"
           },
-          "farmId": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
             "type": "string",
             "nullable": true
           }

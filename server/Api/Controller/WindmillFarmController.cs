@@ -43,15 +43,18 @@ public class WindmillFarmController(
     [MqttRoute("farm/EB_Windmill/windmill/{turbineId}/alert")]
     public async Task HandleAlerts(string turbineId, AlertsDto alerts)
     {
-        logger.LogInformation($"Turbine: {turbineId}, " +
-                              $"Alerts: {JsonSerializer.Serialize(
-                                  new
-                                  {
-                                      alerts.TurbineId,
-                                      alerts.FarmId,
-                                      alerts.Timestamp,
-                                      alerts.severity,
-                                      alerts.message
-                                  })}");
+        logger.LogInformation($"Turbine: {turbineId}, Alerts: {alerts.severity} - {alerts.message} ");
+
+        var alertEntity = new AlertCommand()
+        {
+            TurbineId = turbineId,
+            Name = alerts.severity,
+            //Timestamp = DateTime.SpecifyKind(alerts.Timestamp, DateTimeKind.Unspecified),
+            Description = alerts.message
+        };
+
+        ctx.AlertCommands.Add(alertEntity);
+        await ctx.SaveChangesAsync();
+
     }
 }
