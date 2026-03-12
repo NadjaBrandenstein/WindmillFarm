@@ -10,6 +10,7 @@ Jesper Svoldgaard
 About this project
 
 Windmill farm!🌬️
+
 WindmillFarm is a real-time wind turbine monitoring system developed as part of a school project at EASV. 🌬️
 
 It is a web application designed for windmill inspectors who need to monitor and control wind turbines remotely. Telemetry data such as wind speed, rotor speed, power output and more is streamed live from a public MQTT broker directly into the dashboard.
