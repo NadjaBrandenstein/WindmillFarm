@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.settings.json",
-  "include": ["**/*.ts", "**/*.tsx", "../vite-env.d.ts"],
-
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "../../node_modules/.tmp/utils.tsbuildinfo"
+  },
+  "include": ["**/*.ts", "**/*.tsx", "../vite-env.d.ts"]
 }

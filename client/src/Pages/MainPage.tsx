@@ -6,19 +6,19 @@ import {useState} from "react";
 import {useTurbines} from "../Hooks/useTurbines.ts";
 import {useCommand} from "../Hooks/useCommand.ts";
 import {useAlerts} from "../Hooks/useAlerts.ts";
+import { useTurbineStatus } from "../Hooks/useTurbineStatus";
 
 const metrics = [
-    {key: 'windSpeed' as const, label: 'windSpeed', color: '#8884d8'},
-    {key: 'windDirection' as const, label: 'windDirection', color: '#8884d8'},
-    {key: 'ambientTemperature' as const, label: 'ambientTemperature', color: '#8884d8'},
-    {key: 'rotorSpeed' as const, label: 'rotorSpeed', color: '#8884d8'},
-    {key: 'powerOutput' as const, label: 'powerOutput', color: '#8884d8'},
-    {key: 'nacelleDirection' as const, label: 'nacelleDirection', color: '#8884d8'},
-    {key: 'bladePitch' as const, label: 'bladePitch', color: '#8884d8'},
-    {key: 'generatorTemp' as const, label: 'generatorTemp', color: '#8884d8'},
-    {key: 'gearboxTemp' as const, label: 'gearboxTemp', color: '#8884d8'},
-    {key: 'vibration' as const, label: 'vibration', color: '#8884d8'},
-    //{key: 'status' as const, label: 'status', color: '#8884d8'},
+    {key: 'windSpeed' as const, label: 'Wind Speed'},
+    {key: 'windDirection' as const, label: 'Wind Direction'},
+    {key: 'ambientTemperature' as const, label: 'Ambient Temperature'},
+    {key: 'rotorSpeed' as const, label: 'Rotor Speed'},
+    {key: 'powerOutput' as const, label: 'Power Output'},
+    {key: 'nacelleDirection' as const, label: 'Nacelle Direction'},
+    {key: 'bladePitch' as const, label: 'Blade Pitch'},
+    {key: 'generatorTemp' as const, label: 'Generator Temperaturemp'},
+    {key: 'gearboxTemp' as const, label: 'Gearbox Temperature'},
+    {key: 'vibration' as const, label: 'Vibration'},
 ] as const
 
 function MainPage(){
@@ -33,11 +33,14 @@ function MainPage(){
     const [valueInterval, setValueInterval] = useState<string>("");
     const [valueBladePitch, setValueBladePitch] = useState<string>("");
 
+    const [localStatus, setLocalStatus] = useTurbineStatus(measurements);
+
     const start = () => {
         if(!selectedTurbineId) return alert(
            "Please select a turbine from the dropdown menu"
         );
         sendCommand(selectedTurbineId, {action: 'start'});
+        setLocalStatus('running');
     }
 
     const stop = () => {
@@ -45,6 +48,7 @@ function MainPage(){
             "Please select a turbine from the dropdown menu"
         );
         sendCommand(selectedTurbineId, {action: 'stop', reason: 'manual stop'});
+        setLocalStatus('stopped')
     }
 
     const setInterval = () => {
@@ -83,14 +87,17 @@ function MainPage(){
             </select>
 
             <div className="main-wrapper">
-                <button className="button-main" onClick={start} disabled={!selectedTurbineId || loading}>Start</button>
-                <button className="button-main" onClick={stop} disabled={!selectedTurbineId || loading}>Stop</button>
+                <button className="start-stop-btn" onClick={start} disabled={!selectedTurbineId || loading}>Start</button>
+                <button className="start-stop-btn" onClick={stop} disabled={!selectedTurbineId || loading}>Stop</button>
+                <label className="label">Turbine is: {localStatus === 'running' ? 'Running' : localStatus === 'stopped' ? 'Stopped' : 'Unknown'}</label>
+            </div>
+
+            <div className="main-wrapper">
+                <input className="input-main" onChange={e => setValueInterval(e.target.value)} type="text" placeholder="Set Interval"/>
+                <button className="button-main" onClick={setInterval} disabled={!selectedTurbineId || loading}>Submit</button>
 
                 <input className="input-main" onChange={e => setValueBladePitch(e.target.value)} type="text" placeholder="Blade Pitch"/>
                 <button className="button-main" onClick={setBladePitch} disabled={!selectedTurbineId || loading}>Submit</button>
-
-                <input className="input-main" onChange={e => setValueInterval(e.target.value)} type="text" placeholder="Set Interval"/>
-                <button className="button-main" onClick={setInterval} disabled={!selectedTurbineId || loading}>Submit</button>
 
                 <input className="input-main" type="text" placeholder="Search"/>
             </div>
