@@ -57,7 +57,7 @@ function MainPage(){
         if(!selectedTurbineId) return alert(
             "Please select a turbine from the dropdown menu"
         );
-        sendCommand(selectedTurbineId, {action: 'setBladePitch', angle: Number(valueBladePitch)});
+        sendCommand(selectedTurbineId, {action: 'setPitch', angle: Number(valueBladePitch)});
     }
 
 

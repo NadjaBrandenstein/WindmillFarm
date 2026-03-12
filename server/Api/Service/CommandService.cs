@@ -19,10 +19,17 @@ public class CommandService (
             throw new Exception("Turbine not found");
         
         ValidateCommand(command);
+        Console.WriteLine($"Publishing command to turbine ID: {turbineId}");
+        
         
         var topic = $"farm/EB_Windmill/windmill/{turbineId}/command";
 
-        var payload = JsonSerializer.Serialize(command);
+        var payload = JsonSerializer.Serialize(command, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        });
+        Console.WriteLine($"Payload: {payload}");
         
         await mqtt.PublishAsync(topic, payload);
         
@@ -46,7 +53,7 @@ public class CommandService (
                     throw new Exception("Value must be between 1-60");
                 break;
 
-            case "setbladepitch":
+            case "setpitch":
                 if (command.Angle is null or < 0 or > 30)
                     throw new Exception("Angle must be between 0-30");
                 break;
