@@ -96,8 +96,6 @@ function MainPage(){
 
                 <input className="input-main" onChange={e => setValueBladePitch(e.target.value)} type="text" placeholder="Blade Pitch"/>
                 <button className="button-main" onClick={setBladePitch} disabled={!selectedTurbineId || loading}>Submit</button>
-
-                <input className="input-main" type="text" placeholder="Search"/>
             </div>
 
             <div className="container">

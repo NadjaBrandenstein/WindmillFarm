@@ -378,10 +378,6 @@
           "password": {
             "type": "string",
             "minLength": 6
-          },
-          "roleId": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },

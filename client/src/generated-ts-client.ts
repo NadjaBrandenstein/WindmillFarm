@@ -410,7 +410,6 @@ export interface RegisterRequest {
     firstName: string;
     lastName: string;
     password: string;
-    roleId?: number;
 }
 
 export interface Turbineregistry {
